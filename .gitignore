@@ -1,0 +1,37 @@
+# Python cache and bytecodes
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Project storage (ignore user uploads, extracted images and edits)
+backend/storage/uploads/*
+backend/storage/media/*
+backend/storage/edited/*
+
+# Keep storage directories in git structure but empty
+!backend/storage/uploads/.gitkeep
+!backend/storage/media/.gitkeep
+!backend/storage/edited/.gitkeep
+
+# IDE configurations
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+*.swo
+
+# Temporary diagnostics
+backend/inspect_*.py
