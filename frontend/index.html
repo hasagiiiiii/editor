@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,45 +10,60 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
 
     <style>
         /* ── Design System ───────────────────────────────────────── */
         :root {
-            --bg-workspace: #1a1c24;
-            --bg-ribbon: #101216;
+            --bg-workspace: #f3f2f1;
+            --bg-ribbon: #ffffff;
             --word-blue: #185abd;
             --word-blue-hover: #113f8c;
-            --word-blue-glow: rgba(24, 90, 189, 0.25);
+            --word-blue-glow: rgba(24, 90, 189, 0.15);
             --paper-bg: #ffffff;
-            --paper-text: #2f2f2f;
-            
-            --border-color: #2e323f;
-            --text-main: #f3f4f6;
-            --text-secondary: #9ca3af;
-            --text-muted: #6b7280;
-            
+            --paper-text: #000000;
+
+            --border-color: #dad9d8;
+            --text-main: #323130;
+            --text-secondary: #605e5c;
+            --text-muted: #a19f9d;
+
             --success: #10b981;
-            --success-glow: rgba(16, 185, 129, 0.15);
+            --success-glow: rgba(16, 185, 129, 0.1);
             --danger: #ef4444;
-            --danger-glow: rgba(239, 68, 68, 0.15);
+            --danger-glow: rgba(239, 68, 68, 0.1);
             --warning: #f59e0b;
-            --warning-glow: rgba(245, 158, 11, 0.15);
+            --warning-glow: rgba(245, 158, 11, 0.1);
             --info: #3b82f6;
-            --info-glow: rgba(59, 130, 246, 0.15);
-            
+            --info-glow: rgba(59, 130, 246, 0.1);
+
             --radius-lg: 12px;
             --radius-md: 8px;
             --radius-sm: 4px;
             --transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
-            --shadow-paper: 0 12px 36px rgba(0, 0, 0, 0.5);
-            --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.2);
-            --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --shadow-paper: 0 0 1px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.15);
+            --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.05);
+            --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
 
         /* ── Reset ──────────────────────────────────────────────── */
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body { height: 100%; font-family: var(--font); background: var(--bg-workspace); color: var(--text-main); overflow: hidden; }
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            font-family: var(--font);
+            background: var(--bg-workspace);
+            color: var(--text-main);
+            overflow: hidden;
+        }
 
         /* ── Layout ─────────────────────────────────────────────── */
         .app-layout {
@@ -80,7 +96,7 @@
             font-weight: 700;
             font-size: 16px;
             letter-spacing: -0.02em;
-            color: #fff;
+            color: var(--text-main);
         }
 
         .logo-box {
@@ -94,6 +110,7 @@
             font-size: 18px;
             font-weight: bold;
             box-shadow: 0 2px 10px rgba(24, 90, 189, 0.4);
+            color: #fff;
         }
 
         .doc-title-container {
@@ -140,10 +157,10 @@
         .ribbon-menu {
             display: flex;
             align-items: center;
-            padding: 4px 20px 8px 20px;
+            padding: 8px 20px;
             gap: 8px;
-            background: rgba(0, 0, 0, 0.15);
-            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            background: #f3f2f1;
+            border-top: 1px solid var(--border-color);
         }
 
         .btn {
@@ -158,12 +175,13 @@
             border-radius: var(--radius-md);
             cursor: pointer;
             transition: all var(--transition);
-            background: rgba(255, 255, 255, 0.05);
+            background: #ffffff;
             color: var(--text-main);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
         }
 
         .btn:hover:not(:disabled) {
-            background: rgba(255, 255, 255, 0.1);
+            background: #f6f6f6;
             border-color: var(--text-secondary);
         }
 
@@ -236,7 +254,7 @@
         /* ── Left Sidebar (Files) ───────────────────────────────── */
         .sidebar {
             width: 260px;
-            background: rgba(0, 0, 0, 0.2);
+            background: #ffffff;
             border-right: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
@@ -275,7 +293,7 @@
         }
 
         .file-item:hover {
-            background: rgba(255, 255, 255, 0.05);
+            background: #f3f2f1;
             color: var(--text-main);
         }
 
@@ -304,6 +322,31 @@
             border-radius: 4px;
         }
 
+        .file-item .delete-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 2px 6px;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.2s, color 0.2s;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .file-item:hover .delete-btn {
+            opacity: 0.7;
+        }
+
+        .file-item .delete-btn:hover {
+            opacity: 1 !important;
+            color: var(--danger);
+            background: var(--danger-glow);
+        }
+
         /* ── Document Container ─────────────────────────────────── */
         .document-container {
             flex: 1;
@@ -311,47 +354,105 @@
             background: var(--bg-workspace);
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Fix vertical height stretch on scrollable paper content */
+            align-items: flex-start;
+            /* Fix vertical height stretch on scrollable paper content */
             padding: 0 40px;
             position: relative;
         }
 
         /* ── A4 Paper Sheet ────────────────────────────────────── */
+        #paper-page {
+            background: transparent !important;
+            box-shadow: none !important;
+            border: none !important;
+            padding: 40px 0 !important;
+            display: none;
+            /* Sẽ được set thành flex khi active */
+            flex-direction: column;
+            gap: 30px;
+            width: 100%;
+            max-width: 816px;
+            margin: 0 auto;
+        }
+
         .paper {
             width: 100%;
-            max-width: 820px;
-            min-height: 1056px;
+            max-width: 816px;
+            height: 1123px;
+            /* Chiều cao cố định A4 */
+            box-sizing: border-box;
+            /* Đảm bảo padding không làm tăng kích thước */
             background: var(--paper-bg);
             color: var(--paper-text);
-            margin: 40px 0;
-            padding: 80px 90px;
+            margin: 0 auto;
+            padding: 96px;
             box-shadow: var(--shadow-paper);
-            border-radius: 2px;
+            border: 1px solid var(--border-color);
+            border-radius: 1px;
             position: relative;
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            line-height: 1.6;
+            line-height: 1.15;
             font-size: 15px;
+            overflow: hidden;
+            /* Ẩn phần tràn trang */
+        }
+
+        .page-footer {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-family: var(--font);
+            pointer-events: none;
+            user-select: none;
+            border-top: 1px dashed rgba(0, 0, 0, 0.05);
+            padding-top: 8px;
+            margin: 0 96px;
         }
 
         .paper p {
-            margin-bottom: 8px;
-            text-align: justify;
             position: relative;
         }
 
         /* Format support inside paper */
-        .paper strong { font-weight: 700; color: #000; }
-        .paper em { font-style: italic; }
-        .paper u { text-decoration: underline; }
+        .paper strong {
+            font-weight: 700;
+            color: #000;
+        }
+
+        .paper em {
+            font-style: italic;
+        }
+
+        .paper u {
+            text-decoration: underline;
+        }
+
         .paper img.doc-img {
             max-width: 100%;
             height: auto;
             border-radius: var(--radius-sm);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             margin: 12px auto;
             display: block;
+        }
+
+        /* Style cho bảng Word */
+        .paper table.doc-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 13px;
+        }
+
+        .paper table.doc-table td {
+            border: 1px solid #7f7f7f;
+            padding: 8px 10px;
+            vertical-align: top;
         }
 
         /* Track Changes Markups */
@@ -364,7 +465,7 @@
         }
 
         .paper del {
-            background-color: rgba(239, 68, 68, 0.2);
+            background-color: rgba(239, 68, 68, 0.15);
             color: #991b1b;
             text-decoration: line-through;
             padding: 1px 2px;
@@ -397,7 +498,7 @@
         /* ── Track Changes Review Card Gutter (Right) ────────────── */
         .review-panel {
             width: 320px;
-            background: rgba(0, 0, 0, 0.1);
+            background: #ffffff;
             border-left: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
@@ -433,7 +534,7 @@
         }
 
         .change-card {
-            background: rgba(255, 255, 255, 0.03);
+            background: #ffffff;
             border: 1px solid var(--border-color);
             border-radius: var(--radius-md);
             padding: 14px;
@@ -445,24 +546,24 @@
         }
 
         .change-card:hover {
-            border-color: var(--text-muted);
-            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--text-secondary);
+            background: #fcfcfc;
         }
 
         .change-card.active {
             border-color: var(--info);
-            background: rgba(59, 130, 246, 0.05);
-            box-shadow: 0 0 10px rgba(59, 130, 246, 0.15);
+            background: #f3f9ff;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.1);
         }
 
         .change-card.accepted {
             border-color: var(--success);
-            background: rgba(16, 185, 129, 0.02);
+            background: #f4fdf9;
         }
 
         .change-card.rejected {
             border-color: var(--danger);
-            background: rgba(239, 68, 68, 0.02);
+            background: #fdf5f5;
         }
 
         .card-meta {
@@ -479,10 +580,18 @@
             font-size: 9px;
             letter-spacing: 0.05em;
         }
-        
-        .card-status.pending { color: var(--info); }
-        .card-status.accepted { color: var(--success); }
-        .card-status.rejected { color: var(--danger); }
+
+        .card-status.pending {
+            color: var(--info);
+        }
+
+        .card-status.accepted {
+            color: var(--success);
+        }
+
+        .card-status.rejected {
+            color: var(--danger);
+        }
 
         .card-body {
             font-size: 12px;
@@ -564,13 +673,21 @@
             align-items: center;
             justify-content: center;
             font-size: 38px;
+            color: #ffffff;
             box-shadow: 0 10px 30px rgba(24, 90, 189, 0.3);
             animation: bounce 2s infinite;
         }
 
         @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
         }
 
         .welcome-view h2 {
@@ -594,12 +711,13 @@
             cursor: pointer;
             transition: all var(--transition);
             position: relative;
-            background: rgba(0, 0, 0, 0.1);
+            background: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
         }
 
         .dropzone-box:hover {
             border-color: var(--word-blue);
-            background: rgba(24, 90, 189, 0.03);
+            background: #f8fbff;
         }
 
         .dropzone-box input {
@@ -630,17 +748,24 @@
         }
 
         @keyframes slideDown {
-            from { transform: translateY(-10px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+            from {
+                transform: translateY(-10px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         .ai-prompt-input {
             flex: 1;
-            background: rgba(0, 0, 0, 0.3);
+            background: #ffffff;
             border: 1px solid var(--border-color);
             padding: 8px 14px;
             border-radius: var(--radius-md);
-            color: #fff;
+            color: var(--text-main);
             font-family: var(--font);
             font-size: 13px;
         }
@@ -648,6 +773,10 @@
         .ai-prompt-input:focus {
             outline: none;
             border-color: var(--word-blue);
+        }
+
+        .ai-prompt-input::placeholder {
+            color: var(--text-muted);
         }
 
         /* ── Progress Indicators ────────────────────────────────── */
@@ -670,8 +799,13 @@
         }
 
         @keyframes infinite-progress {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(300%); }
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(300%);
+            }
         }
 
         /* ── Toast Notifications ────────────────────────────────── */
@@ -696,13 +830,34 @@
             max-width: 400px;
         }
 
-        .toast.success { background: rgba(16, 185, 129, 0.15); border-color: var(--success); color: var(--success); }
-        .toast.error { background: rgba(239, 68, 68, 0.15); border-color: var(--danger); color: var(--danger); }
-        .toast.info { background: rgba(59, 130, 246, 0.15); border-color: var(--info); color: var(--info); }
+        .toast.success {
+            background: rgb(16, 185, 129);
+            border-color: var(--success);
+            color: white;
+        }
+
+        .toast.error {
+            background: rgb(239, 68, 68);
+            border-color: var(--danger);
+            color: white;
+        }
+
+        .toast.info {
+            background: rgb(59, 131, 246);
+            border-color: var(--info);
+            color: white;
+        }
 
         @keyframes toast-in {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
 
         /* ── Loading Spinner ────────────────────────────────────── */
@@ -716,15 +871,32 @@
             animation: spin 600ms linear infinite;
         }
 
-        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
 
         /* Scrollbars */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
     </style>
 </head>
+
 <body>
     <div class="app-layout">
         <!-- ── Top Ribbon Toolbar ── -->
@@ -752,18 +924,46 @@
                 <button class="btn btn-ghost" id="btn-refresh-files">🔄 Làm mới danh sách</button>
                 <div class="vertical-divider"></div>
                 <button class="btn btn-primary" id="btn-ai-menu" disabled>✨ AI Edit (Gemini)</button>
-                <button class="btn btn-success" id="btn-finalize" disabled style="display:none">💾 Hoàn thiện & Tải về</button>
+                <button class="btn btn-success" id="btn-save-changes" disabled style="display:none">💾 Lưu thay đổi</button>
+                <button class="btn btn-primary" id="btn-download-file" style="display:none">📥 Tải về máy</button>
             </div>
         </header>
 
         <!-- Progress bar -->
-        <div class="progress-line" id="progress-bar"><div class="fill"></div></div>
+        <div class="progress-line" id="progress-bar">
+            <div class="fill"></div>
+        </div>
 
         <!-- ── AI Input Prompt Bar ── -->
         <div class="ai-prompt-bar" id="ai-prompt-bar">
-            <span style="font-size:12px; font-weight:700; color:var(--info);">✧ GEMINI</span>
-            <input type="text" class="ai-prompt-input" id="ai-prompt-input" 
+            <span style="font-size:12px; font-weight:700; color:var(--word-blue);">✧ GEMINI</span>
+            <input type="text" class="ai-prompt-input" id="ai-prompt-input"
                 placeholder="Nhập yêu cầu viết lại văn bản, VD: Viết trang trọng hơn, sửa các phần chưa thực hiện thành bỏ đi..." />
+
+            <div style="display: flex; align-items: center; gap: 6px; flex-shrink: 0; position: relative;">
+                <span style="font-size:12px; color:var(--text-secondary); white-space: nowrap;">Tài liệu tham
+                    khảo:</span>
+
+                <div style="position: relative; display: inline-block;">
+                    <button class="btn btn-ghost" id="btn-ref-dropdown-toggle"
+                        style="background: #ffffff; border: 1px solid var(--border-color); color: var(--text-main); font-size:12px; padding: 6px 12px; border-radius: var(--radius-sm); min-width: 180px; text-align: left; display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+                        <span id="ref-selected-count">Đang chọn (0)</span>
+                        <span style="font-size: 8px; color: var(--text-muted);">▼</span>
+                    </button>
+
+                    <div id="ref-dropdown-menu"
+                        style="display: none; position: absolute; top: 100%; left: 0; background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius-md); box-shadow: var(--shadow-card); z-index: 1000; max-height: 250px; overflow-y: auto; padding: 8px; width: 280px; margin-top: 6px; flex-direction: column; gap: 4px;">
+                        <!-- Checkboxes and delete buttons injected here -->
+                    </div>
+                </div>
+
+                <div style="position: relative; overflow: hidden;">
+                    <button class="btn" style="padding: 5px 10px; font-size: 12px;">📎 Upload tài liệu</button>
+                    <input type="file" id="ref-file-upload" accept=".md,.pdf,.txt,.docx"
+                        style="position:absolute;inset:0;opacity:0;cursor:pointer;" />
+                </div>
+            </div>
+
             <button class="btn btn-primary" id="btn-ai-run">🚀 Chạy AI</button>
             <button class="btn btn-ghost" id="btn-ai-cancel" style="padding:6px 10px;">✕</button>
             <span id="ai-status-text" style="font-size:12px; color:var(--text-secondary);"></span>
@@ -785,17 +985,19 @@
                 <div class="welcome-view" id="welcome-view">
                     <div class="welcome-logo">✦</div>
                     <h2>AI Word Document Editor</h2>
-                    <p>Hệ thống tự động giải nén tài liệu .docx, hiển thị văn bản, định dạng cơ bản và **hình ảnh trực quan** để bạn chỉnh sửa bằng Gemini AI.</p>
+                    <p>Hệ thống tự động giải nén tài liệu .docx, hiển thị văn bản, định dạng cơ bản và **hình ảnh trực
+                        quan** để bạn chỉnh sửa bằng Gemini AI.</p>
                     <div class="dropzone-box" id="dropzone">
                         <input type="file" accept=".docx" id="dropzone-input" />
                         <div class="dropzone-icon">📤</div>
                         <h3>Kéo thả file .docx vào đây</h3>
-                        <p style="font-size:12px; color:var(--text-muted); margin-top:8px;">Hoặc click để duyệt file từ máy tính</p>
+                        <p style="font-size:12px; color:var(--text-muted); margin-top:8px;">Hoặc click để duyệt file từ
+                            máy tính</p>
                     </div>
                 </div>
 
                 <!-- Paper Sheet (Hidden by default) -->
-                <article class="paper" id="paper-page" style="display: none;">
+                <article id="paper-page" style="display: none;">
                     <!-- Paragraph blocks injected here -->
                 </article>
             </main>
@@ -805,6 +1007,17 @@
                 <div class="review-header">
                     <span>Duyệt Gợi ý AI</span>
                     <span class="changes-counter" id="changes-counter">0 Thay đổi</span>
+                </div>
+                <!-- Nút Đồng ý / Từ chối tất cả -->
+                <div class="review-actions-all" id="review-actions-all"
+                    style="display: flex; gap: 8px; padding: 10px 16px; border-bottom: 1px solid var(--border-color); background: #fdfdfd; flex-shrink: 0;">
+                    <button class="btn btn-success" id="btn-accept-all"
+                        style="flex: 1; padding: 6px 10px; font-size: 11px; display: inline-flex; align-items: center; justify-content: center; gap: 4px;">✔️
+                        Đồng ý tất cả</button>
+                    <button class="btn btn-ghost" id="btn-reject-all"
+                        style="flex: 1; padding: 6px 10px; font-size: 11px; display: inline-flex; align-items: center; justify-content: center; gap: 4px; color: var(--danger); border-color: rgba(239, 68, 68, 0.2);"
+                        onmouseover="this.style.background='var(--danger-glow)'"
+                        onmouseout="this.style.background='none'">❌ Từ chối tất cả</button>
                 </div>
                 <div class="review-cards" id="review-cards">
                     <!-- Change Cards injected here -->
@@ -818,379 +1031,723 @@
 
     <!-- ── Front-End JavaScript Logic ── -->
     <script>
-    (() => {
-        "use strict";
+        (() => {
+            "use strict";
 
-        const API = window.location.origin;
+            const API = window.location.origin;
 
-        // ── App State ──────────────────────────────────────────────
-        let activeFile = null;
-        let originalDoc = {}; // key -> {text, html}
-        let docEdits = {}; // key -> {originalText, revisedText, status: 'pending'|'accepted'|'rejected'}
-        let activeTaskId = null;
-        let pollingTimer = null;
+            // ── App State ──────────────────────────────────────────────
+            let activeFile = null;
+            let originalDoc = {}; // key -> {text, html}
+            let docEdits = {}; // key -> {originalText, revisedText, status: 'pending'|'accepted'|'rejected', insertAfter?: string}
+            let selectedReferences = []; // Danh sách file tham khảo được chọn
+            let activeTaskId = null;
+            let pollingTimer = null;
+            let availableDocuments = []; // NEW: store documents list
+            let docLayoutHtml = ""; // NEW: store layout HTML template
 
-        // ── DOM References ─────────────────────────────────────────
-        const $ = (id) => document.getElementById(id);
-        const welcomeView = $("welcome-view");
-        const paperPage   = $("paper-page");
-        const reviewPanel = $("review-panel");
-        const docNameDisplay = $("doc-name-display");
-        const saveStatus  = $("save-status");
-        
-        const fileList    = $("file-list");
-        const reviewCards = $("review-cards");
-        const changesCounter = $("changes-counter");
-        
-        const btnAiMenu   = $("btn-ai-menu");
-        const btnFinalize = $("btn-finalize");
-        const aiPromptBar = $("ai-prompt-bar");
-        const aiPromptInput = $("ai-prompt-input");
-        const btnAiRun    = $("btn-ai-run");
-        const aiStatusText = $("ai-status-text");
-        const progressBar = $("progress-bar");
+            // ── DOM References ─────────────────────────────────────────
+            const $ = (id) => document.getElementById(id);
+            const welcomeView = $("welcome-view");
+            const paperPage = $("paper-page");
+            const reviewPanel = $("review-panel");
+            const docNameDisplay = $("doc-name-display");
+            const saveStatus = $("save-status");
 
-        // ── Toast Notification Helper ──────────────────────────────
-        function showToast(message, type = "info", duration = 4000) {
-            const container = $("toast-container");
-            const el = document.createElement("div");
-            el.className = `toast ${type}`;
-            el.innerHTML = message;
-            container.appendChild(el);
-            setTimeout(() => {
-                el.style.opacity = "0";
-                el.style.transform = "translateX(24px)";
-                el.style.transition = `all 300ms ease-in`;
-                setTimeout(() => el.remove(), 300);
-            }, duration);
-        }
+            const fileList = $("file-list");
+            const reviewCards = $("review-cards");
+            const changesCounter = $("changes-counter");
 
-        // ── Simple Character/Word-Level Diff Algorithm ─────────────
-        function diffTexts(original, revised) {
-            if (!original) original = "";
-            if (!revised) revised = "";
-            const oldWords = original.split(/(\s+)/);
-            const newWords = revised.split(/(\s+)/);
+            const btnAiMenu = $("btn-ai-menu");
+            const btnSaveChanges = $("btn-save-changes");
+            const btnDownloadFile = $("btn-download-file");
+            const aiPromptBar = $("ai-prompt-bar");
+            const aiPromptInput = $("ai-prompt-input");
+            const btnAiRun = $("btn-ai-run");
+            const aiStatusText = $("ai-status-text");
+            const progressBar = $("progress-bar");
 
-            const dp = Array(oldWords.length + 1).fill(null).map(() => Array(newWords.length + 1).fill(0));
-            for (let i = 1; i <= oldWords.length; i++) {
-                for (let j = 1; j <= newWords.length; j++) {
-                    if (oldWords[i - 1] === newWords[j - 1]) {
-                        dp[i][j] = dp[i - 1][j - 1] + 1;
+            // ── Toast Notification Helper ──────────────────────────────
+            function showToast(message, type = "info", duration = 4000) {
+                const container = $("toast-container");
+                const el = document.createElement("div");
+                el.className = `toast ${type}`;
+                el.innerHTML = message;
+                container.appendChild(el);
+                setTimeout(() => {
+                    el.style.opacity = "0";
+                    el.style.transform = "translateX(24px)";
+                    el.style.transition = `all 300ms ease-in`;
+                    setTimeout(() => el.remove(), 300);
+                }, duration);
+            }
+
+            // ── Simple Character/Word-Level Diff Algorithm ─────────────
+            function diffTexts(original, revised) {
+                if (!original) original = "";
+                if (!revised) revised = "";
+                const oldWords = original.split(/(\s+)/);
+                const newWords = revised.split(/(\s+)/);
+
+                const dp = Array(oldWords.length + 1).fill(null).map(() => Array(newWords.length + 1).fill(0));
+                for (let i = 1; i <= oldWords.length; i++) {
+                    for (let j = 1; j <= newWords.length; j++) {
+                        if (oldWords[i - 1] === newWords[j - 1]) {
+                            dp[i][j] = dp[i - 1][j - 1] + 1;
+                        } else {
+                            dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+                        }
+                    }
+                }
+
+                let i = oldWords.length;
+                let j = newWords.length;
+                const result = [];
+
+                while (i > 0 || j > 0) {
+                    if (i > 0 && j > 0 && oldWords[i - 1] === newWords[j - 1]) {
+                        result.unshift({ type: "equal", text: oldWords[i - 1] });
+                        i--;
+                        j--;
+                    } else if (j > 0 && (i === 0 || dp[i][j - 1] >= dp[i - 1][j])) {
+                        result.unshift({ type: "insert", text: newWords[j - 1] });
+                        j--;
                     } else {
-                        dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+                        result.unshift({ type: "delete", text: oldWords[i - 1] });
+                        i--;
                     }
                 }
-            }
 
-            let i = oldWords.length;
-            let j = newWords.length;
-            const result = [];
-
-            while (i > 0 || j > 0) {
-                if (i > 0 && j > 0 && oldWords[i - 1] === newWords[j - 1]) {
-                    result.unshift({ type: "equal", text: oldWords[i - 1] });
-                    i--;
-                    j--;
-                } else if (j > 0 && (i === 0 || dp[i][j - 1] >= dp[i - 1][j])) {
-                    result.unshift({ type: "insert", text: newWords[j - 1] });
-                    j--;
-                } else {
-                    result.unshift({ type: "delete", text: oldWords[i - 1] });
-                    i--;
-                }
-            }
-
-            let html = "";
-            result.forEach(part => {
-                if (part.type === "equal") {
-                    html += escapeHtml(part.text);
-                } else if (part.type === "insert") {
-                    html += `<ins>${escapeHtml(part.text)}</ins>`;
-                } else if (part.type === "delete") {
-                    html += `<del>${escapeHtml(part.text)}</del>`;
-                }
-            });
-            return html;
-        }
-
-        function escapeHtml(str) {
-            const d = document.createElement("div");
-            d.textContent = str;
-            return d.innerHTML;
-        }
-
-        // ── Load Files List ────────────────────────────────────────
-        async function fetchFileList() {
-            try {
-                const res = await fetch(`${API}/api/documents`);
-                const data = await res.json();
-                
-                fileList.innerHTML = "";
-                if (data.documents.length === 0) {
-                    fileList.innerHTML = `<div style="text-align:center; padding: 20px; font-size:12px; color:var(--text-muted)">Không có file .docx nào</div>`;
-                    return;
-                }
-                
-                data.documents.forEach(doc => {
-                    const el = document.createElement("div");
-                    el.className = `file-item ${activeFile === doc.name ? 'active' : ''}`;
-                    el.innerHTML = `
-                        <span class="icon">📄</span>
-                        <span class="name" title="${doc.name}">${doc.name}</span>
-                        ${doc.has_edited ? '<span class="badge">Đã sửa</span>' : ''}
-                    `;
-                    el.addEventListener("click", () => selectFile(doc.name));
-                    fileList.appendChild(el);
-                });
-            } catch (err) {
-                console.error("Lỗi tải danh sách file:", err);
-            }
-        }
-
-        // ── Upload File Logic ──────────────────────────────────────
-        async function handleUpload(file) {
-            if (!file || !file.name.toLowerCase().endsWith(".docx")) {
-                showToast("Vui lòng chọn file định dạng .docx", "error");
-                return;
-            }
-            
-            progressBar.classList.add("active");
-            showToast(`Đang upload: ${file.name}...`, "info");
-            
-            const form = new FormData();
-            form.append("file", file);
-
-            try {
-                const res = await fetch(`${API}/api/upload`, { method: "POST", body: form });
-                if (!res.ok) {
-                    const err = await res.json();
-                    throw new Error(err.detail || "Upload thất bại");
-                }
-                
-                const data = await res.json();
-                showToast(`Upload thành công: ${data.filename}`, "success");
-                
-                // Chọn và hiển thị file vừa upload
-                await fetchFileList();
-                selectFile(data.filename);
-            } catch (err) {
-                showToast(err.message, "error");
-            } finally {
-                progressBar.classList.remove("active");
-            }
-        }
-
-        // ── Select File and Load Content ───────────────────────────
-        async function selectFile(filename) {
-            activeFile = filename;
-            docNameDisplay.textContent = filename;
-            docEdits = {}; // Reset changes
-            
-            // Highlight active item
-            Array.from(fileList.children).forEach(el => {
-                const isMatch = el.querySelector(".name")?.textContent === filename;
-                el.className = `file-item ${isMatch ? 'active' : ''}`;
-            });
-
-            // Hiển thị giao diện soạn thảo
-            welcomeView.style.display = "none";
-            paperPage.style.display = "block";
-            reviewPanel.style.display = "none"; // Ẩn track changes cho đến khi có AI edit
-            btnFinalize.style.display = "none";
-            
-            btnAiMenu.disabled = false;
-            saveStatus.textContent = "Chưa chỉnh sửa";
-            saveStatus.className = "status-badge";
-
-            // Load paragraphs từ file gốc (uploads)
-            await loadDocumentContent(filename);
-        }
-
-        async function loadDocumentContent(filename) {
-            paperPage.innerHTML = `<div style="text-align:center; padding: 40px; color:var(--text-muted)"><span class="spinner dark"></span> Đang tải tài liệu...</div>`;
-            try {
-                const res = await fetch(`${API}/api/extract/${filename}?source=uploads`);
-                if (!res.ok) throw new Error("Không thể trích xuất tài liệu");
-                const data = await res.json();
-                originalDoc = data.paragraphs;
-                renderDocument();
-            } catch (err) {
-                paperPage.innerHTML = `<div style="color:red; text-align:center; padding: 40px;">Lỗi: ${err.message}</div>`;
-            }
-        }
-
-        // ── Render Document on A4 Paper ────────────────────────────
-        function renderDocument() {
-            paperPage.innerHTML = "";
-            const keys = Object.keys(originalDoc).sort((a, b) => parseInt(a.split("_")[1]) - parseInt(b.split("_")[1]));
-
-            if (keys.length === 0) {
-                paperPage.innerHTML = `<div style="text-align:center; padding: 40px; color:var(--text-muted)">Tài liệu không có nội dung chữ thích hợp</div>`;
-                return;
-            }
-
-            keys.forEach(p_id => {
-                const p_block = document.createElement("div");
-                p_block.className = "para-block";
-                p_block.id = `block-${p_id}`;
-
-                const change = docEdits[p_id];
-                
-                if (change) {
-                    p_block.classList.add(change.status);
-                    
-                    if (change.status === "pending") {
-                        // Hiển thị Diff
-                        p_block.innerHTML = diffTexts(change.originalText, change.revisedText);
-                    } else if (change.status === "accepted") {
-                        // Hiển thị văn bản mới đã chấp nhận
-                        p_block.innerHTML = escapeHtml(change.revisedText);
-                    } else if (change.status === "rejected") {
-                        // Hiển thị văn bản cũ gốc
-                        p_block.innerHTML = originalDoc[p_id].html; 
-                    }
-                } else {
-                    // Mặc định: Hiển thị HTML nguyên bản trích xuất từ DOCX (chữ + định dạng + ảnh)
-                    p_block.innerHTML = originalDoc[p_id].html;
-                }
-
-                // Khi click vào block có thay đổi, highlight card bên phải
-                p_block.addEventListener("click", () => {
-                    if (docEdits[p_id]) {
-                        focusChangeCard(p_id);
+                let html = "";
+                result.forEach(part => {
+                    if (part.type === "equal") {
+                        html += escapeHtml(part.text);
+                    } else if (part.type === "insert") {
+                        html += `<ins>${escapeHtml(part.text)}</ins>`;
+                    } else if (part.type === "delete") {
+                        html += `<del>${escapeHtml(part.text)}</del>`;
                     }
                 });
-
-                paperPage.appendChild(p_block);
-            });
-        }
-
-        // ── AI Edit Execution & Polling ────────────────────────────
-        async function triggerAiEdit() {
-            const requirement = aiPromptInput.value.trim();
-            if (!requirement) {
-                showToast("Vui lòng nhập yêu cầu chỉnh sửa văn bản!", "warning");
-                aiPromptInput.focus();
-                return;
+                return html;
             }
 
-            btnAiRun.disabled = true;
-            btnAiRun.innerHTML = '<span class="spinner"></span> Đang xử lý...';
-            aiStatusText.textContent = "Đang kết nối Gemini API...";
-            progressBar.classList.add("active");
-
-            try {
-                const res = await fetch(`${API}/api/ai-edit`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ filename: activeFile, requirement: requirement })
-                });
-
-                if (!res.ok) {
-                    const err = await res.json();
-                    throw new Error(err.detail || "Không thể khởi chạy AI Edit");
-                }
-
-                const data = await res.json();
-                activeTaskId = data.task_id;
-                pollAiTaskStatus(data.task_id);
-            } catch (err) {
-                showToast(err.message, "error");
-                resetAiPromptBtn();
+            function escapeHtml(str) {
+                const d = document.createElement("div");
+                d.textContent = str;
+                return d.innerHTML;
             }
-        }
 
-        function pollAiTaskStatus(taskId) {
-            if (pollingTimer) clearInterval(pollingTimer);
-            pollingTimer = setInterval(async () => {
+            // ── Load Files List ────────────────────────────────────────
+            async function fetchFileList() {
                 try {
-                    const res = await fetch(`${API}/api/ai-edit/status/${taskId}`);
+                    const res = await fetch(`${API}/api/documents`);
                     const data = await res.json();
-                    aiStatusText.textContent = data.message || "Đang xử lý...";
 
-                    if (data.status === "completed") {
-                        clearInterval(pollingTimer);
-                        pollingTimer = null;
-                        showToast("Hoàn tất xử lý AI!", "success");
-                        applyAiSuggestions(data.suggestions);
-                    } else if (data.status === "failed") {
-                        clearInterval(pollingTimer);
-                        pollingTimer = null;
-                        showToast(`Lỗi AI Edit: ${data.message}`, "error", 8000);
-                        resetAiPromptBtn();
+                    availableDocuments = data.documents;
+                    populateReferenceDropdown();
+
+                    fileList.innerHTML = "";
+                    if (data.documents.length === 0) {
+                        fileList.innerHTML = `<div style="text-align:center; padding: 20px; font-size:12px; color:var(--text-muted)">Không có file .docx nào</div>`;
+                        return;
+                    }
+
+                    data.documents.forEach(doc => {
+                        const el = document.createElement("div");
+                        el.className = `file-item ${activeFile === doc.name ? 'active' : ''}`;
+                        el.innerHTML = `
+                            <span class="icon">📄</span>
+                            <span class="name" title="${doc.name}">${doc.name}</span>
+                            ${doc.has_edited ? '<span class="badge">Đã sửa</span>' : ''}
+                            <button class="delete-btn" title="Xóa tài liệu này">🗑️</button>
+                        `;
+                        el.addEventListener("click", (e) => {
+                            if (e.target.closest(".delete-btn")) return;
+                            selectFile(doc.name);
+                        });
+
+                        const deleteBtn = el.querySelector(".delete-btn");
+                        if (deleteBtn) {
+                            deleteBtn.addEventListener("click", async (e) => {
+                                e.stopPropagation();
+                                if (!confirm(`Bạn có chắc chắn muốn xóa tài liệu '${doc.name}'?`)) return;
+
+                                try {
+                                    const res = await fetch(`${API}/api/documents/${doc.name}`, { method: "DELETE" });
+                                    if (!res.ok) {
+                                        const err = await res.json();
+                                        throw new Error(err.detail || "Xóa thất bại");
+                                    }
+                                    showToast(`Đã xóa tài liệu '${doc.name}'`, "success");
+
+                                    if (activeFile === doc.name) {
+                                        showWelcome();
+                                    }
+
+                                    fetchFileList();
+                                } catch (err) {
+                                    showToast(err.message, "error");
+                                }
+                            });
+                        }
+
+                        fileList.appendChild(el);
+                    });
+                } catch (err) {
+                    console.error("Lỗi tải danh sách file:", err);
+                }
+            }
+
+            // ── Populate Reference Dropdown (Multi-Select Support) ─────
+            async function populateReferenceDropdown() {
+                const refDropdownMenu = document.getElementById("ref-dropdown-menu");
+                if (!refDropdownMenu) return;
+
+                refDropdownMenu.innerHTML = "";
+                const items = [];
+
+                // 1. Thêm các file .docx khác đã upload (loại trừ file đang mở)
+                availableDocuments.forEach(doc => {
+                    if (doc.name !== activeFile) {
+                        items.push({
+                            name: doc.name,
+                            type: "document",
+                            icon: "📄"
+                        });
+                    }
+                });
+
+                // 2. Tải danh sách tài liệu tham khảo đa định dạng
+                try {
+                    const res = await fetch(`${API}/api/reference-files`);
+                    const data = await res.json();
+                    if (data.files && data.files.length > 0) {
+                        data.files.forEach(f => {
+                            const ext = f.name.substring(f.name.lastIndexOf(".")).toLowerCase();
+                            const icons = { ".md": "📝", ".pdf": "📕", ".txt": "📃", ".docx": "📄" };
+                            items.push({
+                                name: f.name,
+                                type: "reference",
+                                icon: icons[ext] || "📎"
+                            });
+                        });
                     }
                 } catch (err) {
-                    console.error("Lỗi poll status:", err);
+                    console.warn("Không thể tải danh sách file tham khảo:", err);
                 }
-            }, 2000);
-        }
 
-        function resetAiPromptBtn() {
-            btnAiRun.disabled = false;
-            btnAiRun.innerHTML = "🚀 Chạy AI";
-            progressBar.classList.remove("active");
-        }
+                if (items.length === 0) {
+                    refDropdownMenu.innerHTML = `<div style="text-align:center; padding: 10px; font-size: 11px; color: var(--text-muted);">Không có tài liệu tham khảo. Hãy upload file.</div>`;
+                    updateSelectedRefCount();
+                    return;
+                }
 
-        // ── Apply AI Suggestions to State ──────────────────────────
-        function applyAiSuggestions(suggestions) {
-            docEdits = {}; // Reset trước đó
-            let count = 0;
+                // Render danh sách checkbox
+                items.forEach(item => {
+                    const container = document.createElement("div");
+                    container.style.cssText = "display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; padding: 4px 8px; border-radius: var(--radius-sm);";
 
-            for (const [p_id, revised_text] of Object.entries(suggestions)) {
-                const originalText = originalDoc[p_id]?.text || "";
-                if (originalText.trim() !== revised_text.trim()) {
-                    docEdits[p_id] = {
-                        originalText: originalText,
-                        revisedText: revised_text,
-                        status: "pending"
-                    };
-                    count++;
+                    // Hover effect
+                    container.addEventListener("mouseenter", () => container.style.background = "#f3f2f1");
+                    container.addEventListener("mouseleave", () => container.style.background = "none");
+
+                    const isChecked = selectedReferences.includes(item.name);
+
+                    container.innerHTML = `
+                        <label style="display: flex; align-items: center; gap: 8px; font-size: 12px; cursor: pointer; flex: 1; user-select: none; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                            <input type="checkbox" value="${item.name}" data-type="${item.type}" class="ref-checkbox" ${isChecked ? "checked" : ""} style="cursor:pointer;" />
+                            <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px;" title="${item.name}">${item.icon} ${item.name}</span>
+                        </label>
+                        <button class="delete-ref-btn" style="background: none; border: none; color: var(--danger); cursor: pointer; padding: 2px 4px; font-size: 12px; display: flex; align-items: center; justify-content: center; border-radius: 4px;" title="Xóa tài liệu này">🗑️</button>
+                    `;
+
+                    // Xử lý sự kiện click checkbox
+                    const checkbox = container.querySelector(".ref-checkbox");
+                    checkbox.addEventListener("change", () => {
+                        const val = checkbox.value;
+                        if (checkbox.checked) {
+                            if (!selectedReferences.includes(val)) selectedReferences.push(val);
+                        } else {
+                            selectedReferences = selectedReferences.filter(r => r !== val);
+                        }
+                        updateSelectedRefCount();
+                    });
+
+                    // Xử lý sự kiện click nút xóa tài liệu tham khảo
+                    const deleteBtn = container.querySelector(".delete-ref-btn");
+                    deleteBtn.addEventListener("click", async (e) => {
+                        e.stopPropagation();
+                        if (!confirm(`Bạn có chắc chắn muốn xóa tài liệu tham khảo '${item.name}'?`)) return;
+
+                        let deleteUrl = "";
+                        if (item.type === "reference") {
+                            deleteUrl = `${API}/api/reference-files/${item.name}`;
+                        } else {
+                            deleteUrl = `${API}/api/documents/${item.name}`;
+                        }
+
+                        try {
+                            const res = await fetch(deleteUrl, { method: "DELETE" });
+                            if (!res.ok) {
+                                const err = await res.json();
+                                throw new Error(err.detail || "Xóa thất bại");
+                            }
+                            showToast(`Đã xóa tài liệu '${item.name}'`, "success");
+
+                            // Loại khỏi danh sách đang chọn
+                            selectedReferences = selectedReferences.filter(r => r !== item.name);
+
+                            // Tải lại
+                            await fetchFileList(); // Gọi ngầm để reload
+                        } catch (err) {
+                            showToast(err.message, "error");
+                        }
+                    });
+
+                    refDropdownMenu.appendChild(container);
+                });
+
+                updateSelectedRefCount();
+            }
+
+            function updateSelectedRefCount() {
+                const countSpan = document.getElementById("ref-selected-count");
+                if (countSpan) {
+                    countSpan.textContent = `Đang chọn (${selectedReferences.length})`;
                 }
             }
 
-            resetAiPromptBtn();
-            aiPromptBar.classList.remove("visible");
+            // ── Upload File Logic ──────────────────────────────────────
+            async function handleUpload(file) {
+                if (!file || !file.name.toLowerCase().endsWith(".docx")) {
+                    showToast("Vui lòng chọn file định dạng .docx", "error");
+                    return;
+                }
 
-            if (count > 0) {
-                showToast(`Phát hiện ${count} đoạn có đề xuất thay đổi.`, "info");
-                reviewPanel.style.display = "flex"; // Hiện thanh duyệt bên phải
-                btnFinalize.style.display = "inline-flex";
-                btnFinalize.disabled = false;
-                
-                saveStatus.textContent = "Có đề xuất chỉnh sửa";
-                saveStatus.className = "status-badge saving";
-                
-                renderDocument();
-                renderReviewCards();
-            } else {
-                showToast("AI phân tích và không thấy đoạn nào cần chỉnh sửa.", "info");
+                progressBar.classList.add("active");
+                showToast(`Đang upload: ${file.name}...`, "info");
+
+                const form = new FormData();
+                form.append("file", file);
+
+                try {
+                    const res = await fetch(`${API}/api/upload`, { method: "POST", body: form });
+                    if (!res.ok) {
+                        const err = await res.json();
+                        throw new Error(err.detail || "Upload thất bại");
+                    }
+
+                    const data = await res.json();
+                    showToast(`Upload thành công: ${data.filename}`, "success");
+
+                    // Chọn và hiển thị file vừa upload
+                    await fetchFileList();
+                    selectFile(data.filename);
+                } catch (err) {
+                    showToast(err.message, "error");
+                } finally {
+                    progressBar.classList.remove("active");
+                }
             }
-        }
 
-        // ── Render Review Cards on Right Panel ─────────────────────
-        function renderReviewCards() {
-            reviewCards.innerHTML = "";
-            let changesLeft = 0;
+            // ── Select File and Load Content ───────────────────────────
+            async function selectFile(filename) {
+                activeFile = filename;
+                docNameDisplay.textContent = filename;
+                docEdits = {}; // Reset changes
 
-            for (const [p_id, change] of Object.entries(docEdits)) {
-                if (change.status === "pending") changesLeft++;
+                // Highlight active item
+                Array.from(fileList.children).forEach(el => {
+                    const isMatch = el.querySelector(".name")?.textContent === filename;
+                    el.className = `file-item ${isMatch ? 'active' : ''}`;
+                });
 
-                const card = document.createElement("div");
-                card.className = `change-card ${change.status}`;
-                card.id = `card-${p_id}`;
+                // Hiển thị giao diện soạn thảo
+                welcomeView.style.display = "none";
+                paperPage.style.display = "flex";
+                reviewPanel.style.display = "none"; // Ẩn track changes cho đến khi có AI edit
+                btnSaveChanges.style.display = "inline-flex";
+                btnSaveChanges.disabled = true;
+                btnDownloadFile.style.display = "inline-flex";
+                btnDownloadFile.disabled = false;
 
-                let statusText = "Chờ duyệt";
-                if (change.status === "accepted") statusText = "Đã Đồng Ý ✓";
-                if (change.status === "rejected") statusText = "Đã Từ Chối ✕";
+                btnAiMenu.disabled = false;
+                saveStatus.textContent = "Chưa chỉnh sửa";
+                saveStatus.className = "status-badge";
 
-                card.innerHTML = `
+                // Load paragraphs từ file gốc (uploads)
+                await loadDocumentContent(filename);
+            }
+
+            async function loadDocumentContent(filename) {
+                paperPage.innerHTML = `<div style="text-align:center; padding: 40px; color:var(--text-muted)"><span class="spinner dark"></span> Đang tải tài liệu...</div>`;
+                try {
+                    const res = await fetch(`${API}/api/extract/${filename}?source=uploads`);
+                    if (!res.ok) throw new Error("Không thể trích xuất tài liệu");
+                    const data = await res.json();
+                    originalDoc = data.paragraphs;
+                    docLayoutHtml = data.html; // Lưu layout HTML gốc
+                    renderDocument();
+                } catch (err) {
+                    paperPage.innerHTML = `<div style="color:red; text-align:center; padding: 40px;">Lỗi: ${err.message}</div>`;
+                }
+            }
+
+            function formatMarkdown(html) {
+                return html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            }
+
+            // ── Render Document on A4 Paper ────────────────────────────
+            function renderDocument() {
+                // 1. Gán layout HTML gốc (chứa cấu trúc bảng, kích thước ảnh và class para-block)
+                paperPage.innerHTML = docLayoutHtml;
+                const keys = Object.keys(originalDoc);
+
+                if (keys.length === 0) {
+                    paperPage.innerHTML = `<div style="text-align:center; padding: 40px; color:var(--text-muted)">Tài liệu không có nội dung chữ thích hợp</div>`;
+                    return;
+                }
+
+                keys.forEach(p_id => {
+                    const p_block = paperPage.querySelector(`#block-${p_id}`);
+                    if (!p_block) return;
+
+                    const change = docEdits[p_id];
+
+                    // Cho phép chỉnh sửa trực tiếp nếu không có gợi ý AI đang chờ duyệt
+                    if (!change || change.status !== "pending") {
+                        p_block.setAttribute("contenteditable", "true");
+
+                        // Lắng nghe sự kiện mất tiêu điểm (blur) để lưu chỉnh sửa thủ công
+                        p_block.addEventListener("blur", () => {
+                            const newText = p_block.textContent.trim();
+                            // Tránh trigger nếu nội dung thực sự không đổi
+                            const cleanNewText = newText.replace(/\s+/g, ' ');
+                            const cleanOrigText = originalDoc[p_id].text.replace(/\s+/g, ' ');
+
+                            if (cleanNewText !== cleanOrigText) {
+                                docEdits[p_id] = {
+                                    originalText: originalDoc[p_id].text,
+                                    revisedText: newText,
+                                    status: "accepted" // Tự động đồng ý cho thay đổi thủ công
+                                };
+                                saveStatus.textContent = "Có thay đổi thủ công";
+                                saveStatus.className = "status-badge saving";
+                                btnSaveChanges.disabled = false;
+                            }
+                            // Phân trang lại khi sửa xong nội dung
+                            paginateDocument();
+                        });
+                    } else {
+                        p_block.removeAttribute("contenteditable");
+                    }
+
+                    if (change) {
+                        p_block.classList.add(change.status);
+
+                        if (change.status === "pending") {
+                            // Hiển thị Diff
+                            p_block.innerHTML = formatMarkdown(diffTexts(change.originalText, change.revisedText));
+                        } else if (change.status === "accepted") {
+                            if (change.revisedText === "") {
+                                p_block.style.display = "none"; // Ẩn đoạn bị xóa
+                            } else {
+                                p_block.innerHTML = formatMarkdown(escapeHtml(change.revisedText));
+                            }
+                        } else if (change.status === "rejected") {
+                            p_block.innerHTML = originalDoc[p_id].html;
+                        }
+                    }
+
+                    p_block.addEventListener("click", () => {
+                        if (docEdits[p_id]) {
+                            focusChangeCard(p_id);
+                        }
+                    });
+                });
+
+                // 2. Render các đoạn chèn thêm của AI sau các đoạn neo tương ứng
+                const insertionKeys = Object.keys(docEdits).filter(k => docEdits[k].insertAfter);
+                insertionKeys.sort((a, b) => {
+                    const aNum = parseInt(a.split("_ins_")[1]) || 0;
+                    const bNum = parseInt(b.split("_ins_")[1]) || 0;
+                    return aNum - bNum;
+                });
+
+                insertionKeys.forEach(ins_id => {
+                    const ins_change = docEdits[ins_id];
+                    const parentId = ins_change.insertAfter;
+                    const parentBlock = paperPage.querySelector(`#block-${parentId}`);
+                    if (!parentBlock) return;
+
+                    const ins_block = document.createElement("div");
+                    ins_block.className = "para-block " + ins_change.status;
+                    ins_block.id = `block-${ins_id}`;
+
+                    if (ins_change.status === "pending") {
+                        ins_block.innerHTML = `<ins>${formatMarkdown(escapeHtml(ins_change.revisedText))}</ins>`;
+                    } else if (ins_change.status === "accepted") {
+                        ins_block.innerHTML = formatMarkdown(escapeHtml(ins_change.revisedText));
+                        ins_block.setAttribute("contenteditable", "true");
+                        ins_block.addEventListener("blur", () => {
+                            ins_change.revisedText = ins_block.textContent.trim();
+                            saveStatus.textContent = "Có thay đổi thủ công";
+                            saveStatus.className = "status-badge saving";
+                            btnSaveChanges.disabled = false;
+                            // Phân trang lại khi sửa xong nội dung chèn thêm
+                            paginateDocument();
+                        });
+                    } else if (ins_change.status === "rejected") {
+                        ins_block.style.display = "none";
+                    }
+
+                    ins_block.addEventListener("click", () => {
+                        focusChangeCard(ins_id);
+                    });
+
+                    // Tìm đoạn văn cuối cùng cùng cụm chèn để chèn tiếp sau nó (giữ đúng thứ tự)
+                    let anchor = parentBlock;
+                    while (anchor.nextElementSibling && anchor.nextElementSibling.id && anchor.nextElementSibling.id.startsWith(`block-${parentId}_ins_`)) {
+                        anchor = anchor.nextElementSibling;
+                    }
+                    anchor.after(ins_block);
+                });
+
+                // 3. Thực hiện phân trang như Word
+                paginateDocument();
+            }
+
+            // ── Phân trang động (A4 Pagination) ──────────────────────────
+            function paginateDocument() {
+                // Thu thập tất cả phần tử con thực sự từ các trang cũ hoặc gốc
+                const realChildren = [];
+                Array.from(paperPage.children).forEach(child => {
+                    if (child.classList.contains("paper")) {
+                        // Lấy tất cả con thực tế từ bên trong trang cũ (trừ footer)
+                        Array.from(child.children).forEach(subChild => {
+                            if (!subChild.classList.contains("page-footer")) {
+                                realChildren.push(subChild);
+                            }
+                        });
+                    } else if (!child.classList.contains("page-footer")) {
+                        // Đoạn bị ẩn (display: none) đang nằm ngoài
+                        realChildren.push(child);
+                    }
+                });
+
+                if (realChildren.length === 0) return;
+
+                // Xóa trống container để bắt đầu phân trang sạch từ đầu
+                paperPage.innerHTML = "";
+
+                let currentPage = document.createElement("div");
+                currentPage.className = "paper"; // giữ class .paper cho trang để kế thừa toàn bộ styles
+                paperPage.appendChild(currentPage);
+
+                const maxPageHeight = 1123; // chuẩn A4 chiều cao
+                const paddingHeight = 192; // 96px top + 96px bottom
+                const maxContentHeight = maxPageHeight - paddingHeight; // ~931px content area
+
+                let currentHeight = 0;
+                let pageIndex = 1;
+
+                // Thêm footer trang
+                const createPageFooter = (index) => {
+                    const footer = document.createElement("div");
+                    footer.className = "page-footer";
+                    footer.textContent = `Trang ${index}`;
+                    return footer;
+                };
+                currentPage.appendChild(createPageFooter(pageIndex));
+
+                realChildren.forEach(child => {
+                    // Nếu là phần tử bị ẩn (ví dụ: đoạn đã xóa)
+                    if (child.style.display === "none") {
+                        paperPage.appendChild(child); // Giữ trong DOM chính để không mất dữ liệu
+                        return;
+                    }
+
+                    // Đưa vào trang để đo chiều cao thực tế
+                    currentPage.appendChild(child);
+                    const childHeight = child.offsetHeight || child.getBoundingClientRect().height || 0;
+
+                    const styles = window.getComputedStyle(child);
+                    const marginTop = parseFloat(styles.marginTop) || 0;
+                    const marginBottom = parseFloat(styles.marginBottom) || 0;
+                    const totalChildHeight = childHeight + marginTop + marginBottom;
+
+                    // Nếu tràn trang (và trang hiện tại đã có phần tử nội dung thực, loại trừ page-footer)
+                    if (currentHeight + totalChildHeight > maxContentHeight && currentPage.children.length > 2) {
+                        pageIndex++;
+                        currentPage = document.createElement("div");
+                        currentPage.className = "paper";
+                        paperPage.appendChild(currentPage);
+
+                        currentPage.appendChild(createPageFooter(pageIndex));
+                        currentPage.appendChild(child);
+                        currentHeight = totalChildHeight;
+                    } else {
+                        currentHeight += totalChildHeight;
+                    }
+                });
+            }
+
+            // ── AI Edit Execution & Polling ────────────────────────────
+            async function triggerAiEdit() {
+                const requirement = aiPromptInput.value.trim();
+                if (!requirement) {
+                    showToast("Vui lòng nhập yêu cầu chỉnh sửa văn bản!", "warning");
+                    aiPromptInput.focus();
+                    return;
+                }
+
+                const referenceFilename = selectedReferences.join(",");
+
+                btnAiRun.disabled = true;
+                btnAiRun.innerHTML = '<span class="spinner"></span> Đang xử lý...';
+                aiStatusText.textContent = "Đang kết nối Gemini API...";
+                progressBar.classList.add("active");
+
+                try {
+                    const res = await fetch(`${API}/api/ai-edit`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            filename: activeFile,
+                            requirement: requirement,
+                            reference_filename: referenceFilename
+                        })
+                    });
+
+                    if (!res.ok) {
+                        const err = await res.json();
+                        throw new Error(err.detail || "Không thể khởi chạy AI Edit");
+                    }
+
+                    const data = await res.json();
+                    activeTaskId = data.task_id;
+                    pollAiTaskStatus(data.task_id);
+                } catch (err) {
+                    showToast(err.message, "error");
+                    resetAiPromptBtn();
+                }
+            }
+
+            function pollAiTaskStatus(taskId) {
+                if (pollingTimer) clearInterval(pollingTimer);
+                pollingTimer = setInterval(async () => {
+                    try {
+                        const res = await fetch(`${API}/api/ai-edit/status/${taskId}`);
+                        const data = await res.json();
+                        aiStatusText.textContent = data.message || "Đang xử lý...";
+
+                        if (data.status === "completed") {
+                            clearInterval(pollingTimer);
+                            pollingTimer = null;
+                            showToast("Hoàn tất xử lý AI!", "success");
+                            applyAiSuggestions(data.suggestions);
+                        } else if (data.status === "failed") {
+                            clearInterval(pollingTimer);
+                            pollingTimer = null;
+                            showToast(`Lỗi AI Edit: ${data.message}`, "error", 8000);
+                            resetAiPromptBtn();
+                        }
+                    } catch (err) {
+                        console.error("Lỗi poll status:", err);
+                    }
+                }, 2000);
+            }
+
+            function resetAiPromptBtn() {
+                btnAiRun.disabled = false;
+                btnAiRun.innerHTML = "🚀 Chạy AI";
+                progressBar.classList.remove("active");
+            }
+
+            // ── Apply AI Suggestions to State ──────────────────────────
+            function applyAiSuggestions(suggestions) {
+                docEdits = {}; // Reset trước đó
+                let count = 0;
+
+                for (const [p_id, revised_text] of Object.entries(suggestions)) {
+                    if (p_id.includes("_ins_")) {
+                        const match = p_id.match(/^p_(\d+)_ins_/);
+                        if (match) {
+                            const parentId = `p_${match[1]}`;
+                            docEdits[p_id] = {
+                                originalText: "",
+                                revisedText: revised_text,
+                                status: "pending",
+                                insertAfter: parentId
+                            };
+                            count++;
+                        }
+                    } else {
+                        const originalText = originalDoc[p_id]?.text || "";
+                        if (originalText.trim() !== revised_text.trim()) {
+                            docEdits[p_id] = {
+                                originalText: originalText,
+                                revisedText: revised_text,
+                                status: "pending"
+                            };
+                            count++;
+                        }
+                    }
+                }
+
+                resetAiPromptBtn();
+                aiPromptBar.classList.remove("visible");
+
+                if (count > 0) {
+                    showToast(`Phát hiện ${count} đoạn có đề xuất thay đổi.`, "info");
+                    reviewPanel.style.display = "flex";
+                    btnSaveChanges.disabled = false;
+
+                    saveStatus.textContent = "Có đề xuất chỉnh sửa";
+                    saveStatus.className = "status-badge saving";
+
+                    renderDocument();
+                    renderReviewCards();
+                } else {
+                    showToast("AI phân tích và không thấy đoạn nào cần chỉnh sửa.", "info");
+                }
+            }
+
+            // ── Render Review Cards on Right Panel ─────────────────────
+            function renderReviewCards() {
+                reviewCards.innerHTML = "";
+                let changesLeft = 0;
+
+                for (const [p_id, change] of Object.entries(docEdits)) {
+                    if (change.status === "pending") changesLeft++;
+
+                    const card = document.createElement("div");
+                    card.className = `change-card ${change.status}`;
+                    card.id = `card-${p_id}`;
+
+                    let statusText = "Chờ duyệt";
+                    if (change.status === "accepted") statusText = "Đã Đồng Ý ✓";
+                    if (change.status === "rejected") statusText = "Đã Từ Chối ✕";
+
+                    let cardTitle = `Đoạn ${p_id.split("_")[1]}`;
+                    let diffHtml = "";
+                    if (p_id.includes("_ins_")) {
+                        cardTitle += " (Thêm mới)";
+                        diffHtml = `<ins>${escapeHtml(change.revisedText)}</ins>`;
+                    } else if (change.revisedText === "") {
+                        cardTitle += " (Xóa)";
+                        diffHtml = `<del>${escapeHtml(change.originalText)}</del>`;
+                    } else {
+                        diffHtml = diffTexts(change.originalText, change.revisedText);
+                    }
+
+                    card.innerHTML = `
                     <div class="card-meta">
-                        <span>Đoạn ${p_id.split("_")[1]}</span>
+                        <span>${cardTitle}</span>
                         <span class="card-status ${change.status}">${statusText}</span>
                     </div>
                     <div class="card-body">
-                        ${diffTexts(change.originalText, change.revisedText)}
+                        ${diffHtml}
                     </div>
                     <div class="card-actions">
                         ${change.status === 'pending' ? `
@@ -1202,199 +1759,318 @@
                     </div>
                 `;
 
-                // Nhấp vào thẻ card sẽ scroll tới đoạn tương ứng trong giấy A4
-                card.addEventListener("click", (e) => {
-                    if (e.target.tagName !== "BUTTON") {
-                        scrollToParagraph(p_id);
-                    }
-                });
+                    // Nhấp vào thẻ card sẽ scroll tới đoạn tương ứng trong giấy A4
+                    card.addEventListener("click", (e) => {
+                        if (e.target.tagName !== "BUTTON") {
+                            scrollToParagraph(p_id);
+                        }
+                    });
 
-                reviewCards.appendChild(card);
-            }
+                    reviewCards.appendChild(card);
+                }
 
-            changesCounter.textContent = `${changesLeft} Thay đổi`;
-            if (changesLeft === 0) {
-                saveStatus.textContent = "Đã duyệt hết";
-                saveStatus.className = "status-badge saved";
-            }
-        }
-
-        function scrollToParagraph(p_id) {
-            const block = document.getElementById(`block-${p_id}`);
-            if (block) {
-                block.scrollIntoView({ behavior: "smooth", block: "center" });
-                
-                // Thêm hiệu ứng highlight nháy nhẹ
-                block.style.boxShadow = "0 0 15px rgba(59, 130, 246, 0.4)";
-                setTimeout(() => { block.style.boxShadow = ""; }, 1500);
-                
-                focusChangeCard(p_id);
-            }
-        }
-
-        function focusChangeCard(p_id) {
-            // Remove active style from all cards
-            document.querySelectorAll(".change-card").forEach(el => el.classList.remove("active"));
-            
-            const card = document.getElementById(`card-${p_id}`);
-            if (card) {
-                card.classList.add("active");
-                card.scrollIntoView({ behavior: "smooth", block: "nearest" });
-            }
-        }
-
-        // ── Handle Action (Accept / Reject / Undo) ────────────────
-        reviewCards.addEventListener("click", (e) => {
-            const btn = e.target.closest("button");
-            if (!btn) return;
-
-            const pid = btn.dataset.pid;
-            const action = btn.dataset.action;
-
-            if (action === "accept") {
-                docEdits[pid].status = "accepted";
-                showToast(`Đã đồng ý thay đổi của Đoạn ${pid.split("_")[1]}`, "success");
-            } else if (action === "reject") {
-                docEdits[pid].status = "rejected";
-                showToast(`Đã khôi phục Đoạn ${pid.split("_")[1]}`, "info");
-            } else if (action === "undo") {
-                docEdits[pid].status = "pending";
-            }
-
-            renderDocument();
-            renderReviewCards();
-            
-            // Focus vào thẻ sau khi thay đổi để thao tác mượt mà
-            setTimeout(() => focusChangeCard(pid), 50);
-        });
-
-        // ── Finalize Edits and Export Document ─────────────────────
-        async function finalizeAndDownload() {
-            const acceptedEdits = {};
-            
-            // Chỉ thu thập những thay đổi có status = 'accepted'
-            for (const [p_id, change] of Object.entries(docEdits)) {
-                if (change.status === "accepted") {
-                    acceptedEdits[p_id] = change.revisedText;
+                changesCounter.textContent = `${changesLeft} Thay đổi`;
+                if (changesLeft === 0) {
+                    saveStatus.textContent = "Đã duyệt hết";
+                    saveStatus.className = "status-badge saved";
                 }
             }
 
-            progressBar.classList.add("active");
-            showToast("Đang kết xuất tài liệu .docx...", "info");
+            function scrollToParagraph(p_id) {
+                const block = document.getElementById(`block-${p_id}`);
+                if (block) {
+                    block.scrollIntoView({ behavior: "smooth", block: "center" });
 
-            try {
-                const res = await fetch(`${API}/api/finalize`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        filename: activeFile,
-                        accepted_edits: acceptedEdits
-                    })
+                    // Thêm hiệu ứng highlight nháy nhẹ
+                    block.style.boxShadow = "0 0 15px rgba(59, 130, 246, 0.4)";
+                    setTimeout(() => { block.style.boxShadow = ""; }, 1500);
+
+                    focusChangeCard(p_id);
+                }
+            }
+
+            function focusChangeCard(p_id) {
+                // Remove active style from all cards
+                document.querySelectorAll(".change-card").forEach(el => el.classList.remove("active"));
+
+                const card = document.getElementById(`card-${p_id}`);
+                if (card) {
+                    card.classList.add("active");
+                    card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+                }
+            }
+
+            // ── Handle Action (Accept / Reject / Undo) ────────────────
+            reviewCards.addEventListener("click", (e) => {
+                const btn = e.target.closest("button");
+                if (!btn) return;
+
+                const pid = btn.dataset.pid;
+                const action = btn.dataset.action;
+
+                if (action === "accept") {
+                    docEdits[pid].status = "accepted";
+                    showToast(`Đã đồng ý thay đổi của Đoạn ${pid.split("_")[1]}`, "success");
+                } else if (action === "reject") {
+                    docEdits[pid].status = "rejected";
+                    showToast(`Đã khôi phục Đoạn ${pid.split("_")[1]}`, "info");
+                } else if (action === "undo") {
+                    docEdits[pid].status = "pending";
+                }
+
+                renderDocument();
+                renderReviewCards();
+                btnSaveChanges.disabled = false; // Bật nút lưu vì có thay đổi trạng thái duyệt
+
+                // Focus vào thẻ sau khi thay đổi để thao tác mượt mà
+                setTimeout(() => focusChangeCard(pid), 50);
+            });
+
+            // ── Save Document Changes to Server ────────────────────────
+            async function saveDocumentChanges() {
+                const acceptedEdits = {};
+
+                // Chỉ thu thập những thay đổi có status = 'accepted'
+                for (const [p_id, change] of Object.entries(docEdits)) {
+                    if (change.status === "accepted") {
+                        acceptedEdits[p_id] = change.revisedText;
+                    }
+                }
+
+                progressBar.classList.add("active");
+                saveStatus.textContent = "Đang lưu...";
+                saveStatus.className = "status-badge saving";
+                showToast("Đang lưu các thay đổi lên server...", "info");
+
+                try {
+                    const res = await fetch(`${API}/api/finalize`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            filename: activeFile,
+                            accepted_edits: acceptedEdits
+                        })
+                    });
+
+                    if (!res.ok) throw new Error("Lưu tài liệu thất bại");
+                    const data = await res.json();
+
+                    showToast("Đã lưu các thay đổi thành công!", "success");
+                    saveStatus.textContent = "Đã lưu";
+                    saveStatus.className = "status-badge";
+                    btnSaveChanges.disabled = true; // Vô hiệu hóa nút Save vì đã lưu xong
+
+                    // Làm mới danh sách file để hiện dấu tick đã sửa
+                    await fetchFileList();
+
+                } catch (err) {
+                    showToast(err.message, "error");
+                    saveStatus.textContent = "Lưu thất bại";
+                    saveStatus.className = "status-badge error";
+                } finally {
+                    progressBar.classList.remove("active");
+                }
+            }
+
+            // ── Download Document File ────────────────────────────────
+            function downloadDocumentFile() {
+                if (!activeFile) return;
+                
+                showToast("Đang chuẩn bị tải tài liệu về máy...", "info");
+                
+                // Sử dụng API tải file, tự động chọn bản edited nếu có
+                const a = document.createElement("a");
+                a.href = `${API}/api/files/${activeFile}?source=auto`;
+                a.download = activeFile;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            }
+
+            // ── Drag & Drop Event Handlers ─────────────────────────────
+            const dropzone = $("dropzone");
+            dropzone.addEventListener("dragover", (e) => {
+                e.preventDefault();
+                dropzone.style.borderColor = "var(--word-blue)";
+                dropzone.style.background = "rgba(24, 90, 189, 0.05)";
+            });
+
+            dropzone.addEventListener("dragleave", () => {
+                dropzone.style.borderColor = "";
+                dropzone.style.background = "";
+            });
+
+            dropzone.addEventListener("drop", (e) => {
+                e.preventDefault();
+                dropzone.style.borderColor = "";
+                dropzone.style.background = "";
+
+                const file = e.dataTransfer.files[0];
+                if (file) handleUpload(file);
+            });
+
+            // ── General Event Listeners ────────────────────────────────
+            $("upload-input").addEventListener("change", (e) => {
+                if (e.target.files[0]) handleUpload(e.target.files[0]);
+                e.target.value = "";
+            });
+
+            $("dropzone-input").addEventListener("change", (e) => {
+                if (e.target.files[0]) handleUpload(e.target.files[0]);
+                e.target.value = "";
+            });
+
+            $("btn-refresh-files").addEventListener("click", () => {
+                fetchFileList();
+                showToast("Làm mới danh sách thành công", "success", 1500);
+            });
+
+            $("btn-new-file").addEventListener("click", () => {
+                showWelcome();
+            });
+
+            function showWelcome() {
+                welcomeView.style.display = "flex";
+                paperPage.style.display = "none";
+                reviewPanel.style.display = "none";
+                btnSaveChanges.style.display = "none";
+                btnDownloadFile.style.display = "none";
+                btnAiMenu.disabled = true;
+                aiPromptBar.classList.remove("visible");
+                activeFile = null;
+                docNameDisplay.textContent = "Chưa chọn tài liệu";
+                saveStatus.textContent = "Đã lưu";
+                saveStatus.className = "status-badge";
+                selectedReferences = []; // Reset tài liệu tham khảo đang chọn
+
+                fetchFileList();
+            }
+
+            btnAiMenu.addEventListener("click", () => {
+                aiPromptBar.classList.toggle("visible");
+                if (aiPromptBar.classList.contains("visible")) {
+                    populateReferenceDropdown();
+                    aiPromptInput.focus();
+                }
+            });
+
+            $("btn-ai-cancel").addEventListener("click", () => {
+                aiPromptBar.classList.remove("visible");
+            });
+
+            btnAiRun.addEventListener("click", triggerAiEdit);
+
+            aiPromptInput.addEventListener("keydown", (e) => {
+                if (e.key === "Enter") {
+                    e.preventDefault();
+                    triggerAiEdit();
+                }
+            });
+
+            btnSaveChanges.addEventListener("click", saveDocumentChanges);
+            btnDownloadFile.addEventListener("click", downloadDocumentFile);
+
+            // ── Accept All / Reject All Handlers ──────────────────────
+            $("btn-accept-all").addEventListener("click", () => {
+                const keys = Object.keys(docEdits);
+                const pendingKeys = keys.filter(k => docEdits[k].status === "pending");
+                if (pendingKeys.length === 0) {
+                    showToast("Không có thay đổi nào đang chờ duyệt.", "warning");
+                    return;
+                }
+
+                pendingKeys.forEach(p_id => {
+                    docEdits[p_id].status = "accepted";
+                });
+                showToast(`Đã đồng ý tất cả ${pendingKeys.length} đề xuất từ AI.`, "success");
+                renderDocument();
+                renderReviewCards();
+                btnSaveChanges.disabled = false;
+            });
+
+            $("btn-reject-all").addEventListener("click", () => {
+                const keys = Object.keys(docEdits);
+                const pendingKeys = keys.filter(k => docEdits[k].status === "pending");
+                if (pendingKeys.length === 0) {
+                    showToast("Không có thay đổi nào đang chờ duyệt.", "warning");
+                    return;
+                }
+                if (!confirm(`Bạn có chắc muốn TỪ CHỐI tất cả ${pendingKeys.length} thay đổi?`)) return;
+
+                pendingKeys.forEach(p_id => {
+                    docEdits[p_id].status = "rejected";
+                });
+                showToast(`Đã từ chối tất cả ${pendingKeys.length} đề xuất từ AI.`, "info");
+                renderDocument();
+                renderReviewCards();
+                btnSaveChanges.disabled = false;
+            });
+
+            // ── Reference File Upload Handler ────────────────────────
+            const refFileUpload = document.getElementById("ref-file-upload");
+            if (refFileUpload) {
+                refFileUpload.addEventListener("change", async (e) => {
+                    const file = e.target.files[0];
+                    if (!file) return;
+
+                    const allowed = [".md", ".pdf", ".txt", ".docx"];
+                    const ext = file.name.substring(file.name.lastIndexOf(".")).toLowerCase();
+                    if (!allowed.includes(ext)) {
+                        showToast(`Chỉ hỗ trợ file: ${allowed.join(", ")}`, "error");
+                        return;
+                    }
+
+                    showToast(`Đang upload tài liệu tham khảo: ${file.name}...`, "info");
+                    const form = new FormData();
+                    form.append("file", file);
+
+                    try {
+                        const res = await fetch(`${API}/api/upload-reference`, { method: "POST", body: form });
+                        if (!res.ok) {
+                            const err = await res.json();
+                            throw new Error(err.detail || "Upload thất bại");
+                        }
+                        const data = await res.json();
+                        showToast(`Upload thành công: ${data.filename}`, "success");
+
+                        // Thêm file vừa upload vào danh sách đã chọn
+                        if (!selectedReferences.includes(data.filename)) {
+                            selectedReferences.push(data.filename);
+                        }
+                        // Cập nhật và render lại dropdown menu
+                        await populateReferenceDropdown();
+                    } catch (err) {
+                        showToast(err.message, "error");
+                    }
+
+                    // Reset input để có thể chọn lại file cùng tên
+                    e.target.value = "";
+                });
+            }
+
+            // ── Reference Dropdown Toggle & Click Outside Handlers ────
+            const btnRefDropdownToggle = document.getElementById("btn-ref-dropdown-toggle");
+            const refDropdownMenu = document.getElementById("ref-dropdown-menu");
+
+            if (btnRefDropdownToggle && refDropdownMenu) {
+                btnRefDropdownToggle.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    const isHidden = refDropdownMenu.style.display === "none";
+                    refDropdownMenu.style.display = isHidden ? "flex" : "none";
                 });
 
-                if (!res.ok) throw new Error("Gộp tài liệu thất bại");
-                const data = await res.json();
-                
-                showToast("Kết xuất hoàn tất! Tự động tải xuống...", "success");
-                
-                // Tải xuống file docx đã gộp
-                const a = document.createElement("a");
-                a.href = `${API}${data.download_url}`;
-                a.download = `edited_${activeFile}`;
-                a.click();
-
-                // Làm mới danh sách file để hiện dấu tick đã sửa
-                await fetchFileList();
-
-            } catch (err) {
-                showToast(err.message, "error");
-            } finally {
-                progressBar.classList.remove("active");
+                // Đóng dropdown khi nhấp ra ngoài
+                document.addEventListener("click", (e) => {
+                    if (!e.target.closest("#btn-ref-dropdown-toggle") && !e.target.closest("#ref-dropdown-menu")) {
+                        refDropdownMenu.style.display = "none";
+                    }
+                });
             }
-        }
 
-        // ── Drag & Drop Event Handlers ─────────────────────────────
-        const dropzone = $("dropzone");
-        dropzone.addEventListener("dragover", (e) => {
-            e.preventDefault();
-            dropzone.style.borderColor = "var(--word-blue)";
-            dropzone.style.background = "rgba(24, 90, 189, 0.05)";
-        });
-
-        dropzone.addEventListener("dragleave", () => {
-            dropzone.style.borderColor = "";
-            dropzone.style.background = "";
-        });
-
-        dropzone.addEventListener("drop", (e) => {
-            e.preventDefault();
-            dropzone.style.borderColor = "";
-            dropzone.style.background = "";
-            
-            const file = e.dataTransfer.files[0];
-            if (file) handleUpload(file);
-        });
-
-        // ── General Event Listeners ────────────────────────────────
-        $("upload-input").addEventListener("change", (e) => {
-            if (e.target.files[0]) handleUpload(e.target.files[0]);
-            e.target.value = "";
-        });
-        
-        $("dropzone-input").addEventListener("change", (e) => {
-            if (e.target.files[0]) handleUpload(e.target.files[0]);
-            e.target.value = "";
-        });
-
-        $("btn-refresh-files").addEventListener("click", () => {
+            // ── Initialize App ────────────────────────────────────────
             fetchFileList();
-            showToast("Làm mới danh sách thành công", "success", 1500);
-        });
-
-        $("btn-new-file").addEventListener("click", () => {
-            showWelcome();
-        });
-
-        function showWelcome() {
-            welcomeView.style.display = "flex";
-            paperPage.style.display = "none";
-            reviewPanel.style.display = "none";
-            btnFinalize.style.display = "none";
-            btnAiMenu.disabled = true;
-            aiPromptBar.classList.remove("visible");
-            activeFile = null;
-            docNameDisplay.textContent = "Chưa chọn tài liệu";
-            saveStatus.textContent = "Đã lưu";
-            saveStatus.className = "status-badge";
-            
-            fetchFileList();
-        }
-
-        btnAiMenu.addEventListener("click", () => {
-            aiPromptBar.classList.toggle("visible");
-            if (aiPromptBar.classList.contains("visible")) {
-                aiPromptInput.focus();
-            }
-        });
-
-        $("btn-ai-cancel").addEventListener("click", () => {
-            aiPromptBar.classList.remove("visible");
-        });
-
-        btnAiRun.addEventListener("click", triggerAiEdit);
-
-        aiPromptInput.addEventListener("keydown", (e) => {
-            if (e.key === "Enter") {
-                e.preventDefault();
-                triggerAiEdit();
-            }
-        });
-
-        btnFinalize.addEventListener("click", finalizeAndDownload);
-
-        // ── Initialize App ────────────────────────────────────────
-        fetchFileList();
-    })();
+        })();
     </script>
 </body>
+
 </html>
