@@ -140,6 +140,7 @@ def _background_ai_process(
     file_path: Path,
     task_id: str,
     user_requirement: str,
+    reference_text: Optional[str] = None,
 ) -> None:
     """
     Background task: Trích xuất → Gọi AI gợi ý chỉnh sửa → Lưu gợi ý vào Task.
@@ -149,7 +150,8 @@ def _background_ai_process(
         logger.info("🤖 Bắt đầu AI edit: %s (task=%s)", file_path.name, task_id)
 
         # Bước 1: Trích xuất đoạn văn (dạng Dict[str, Dict[str, str]])
-        paragraphs = processor.extract_paragraphs_with_ids(str(file_path))
+        paragraphs_data = processor.extract_paragraphs_with_ids(str(file_path))
+        paragraphs = paragraphs_data["paragraphs"]
         logger.info("  → Trích xuất %d đoạn văn", len(paragraphs))
 
         if not paragraphs:
@@ -166,6 +168,7 @@ def _background_ai_process(
         edited = generate_ai_edit(
             text_dict,
             user_requirement,
+            reference_text=reference_text,
             model=config.GEMINI_MODEL,
             api_key=config.GEMINI_API_KEY or None,
         )
@@ -224,6 +227,44 @@ async def list_documents():
             }
         )
     return {"documents": files}
+
+
+@app.delete("/api/documents/{filename}")
+async def delete_document(filename: str):
+    """Xóa file tài liệu (cả file gốc, file đã sửa, và thư mục media đi kèm)."""
+    deleted_any = False
+    
+    # 1. File trong uploads
+    upload_path = config.UPLOADS_DIR / filename
+    if upload_path.exists():
+        try:
+            upload_path.unlink()
+            deleted_any = True
+        except Exception as e:
+            logger.error("Lỗi khi xóa file upload %s: %s", filename, e)
+
+    # 2. File trong edited
+    edited_path = config.EDITED_DIR / filename
+    if edited_path.exists():
+        try:
+            edited_path.unlink()
+            deleted_any = True
+        except Exception as e:
+            logger.error("Lỗi khi xóa file edited %s: %s", filename, e)
+
+    # 3. Thư mục media giải nén
+    media_dir = config.MEDIA_DIR / filename
+    if media_dir.exists() and media_dir.is_dir():
+        try:
+            import shutil
+            shutil.rmtree(media_dir)
+        except Exception as e:
+            logger.error("Lỗi khi xóa thư mục media %s: %s", filename, e)
+
+    if not deleted_any:
+        raise HTTPException(status_code=404, detail=f"Không tìm thấy file '{filename}' để xóa")
+
+    return {"message": f"Đã xóa file '{filename}' thành công"}
 
 
 @app.get("/api/files/{filename}")
@@ -310,7 +351,119 @@ async def upload_file(file: UploadFile = File(...)):
     }
 
 
-# ── ONLYOFFICE Editor Config ───────────────────────────────────────
+# ── Reference File Upload & Extraction ─────────────────────────────
+
+REFERENCE_DIR = config.STORAGE_DIR / "references"
+REFERENCE_DIR.mkdir(parents=True, exist_ok=True)
+
+
+def _extract_reference_text(file_path: Path) -> str:
+    """Trích xuất văn bản thuần từ file tham khảo (.md, .txt, .pdf, .docx)."""
+    suffix = file_path.suffix.lower()
+    
+    if suffix in (".md", ".txt"):
+        return file_path.read_text(encoding="utf-8", errors="replace")
+    
+    elif suffix == ".pdf":
+        try:
+            import fitz  # PyMuPDF
+            doc = fitz.open(str(file_path))
+            text_parts = []
+            for page in doc:
+                text_parts.append(page.get_text())
+            doc.close()
+            return "\n".join(text_parts)
+        except ImportError:
+            # Fallback nếu chưa cài PyMuPDF
+            logger.warning("PyMuPDF (fitz) chưa cài. Thử pdfplumber...")
+            try:
+                import pdfplumber
+                text_parts = []
+                with pdfplumber.open(str(file_path)) as pdf:
+                    for page in pdf.pages:
+                        t = page.extract_text()
+                        if t:
+                            text_parts.append(t)
+                return "\n".join(text_parts)
+            except ImportError:
+                raise RuntimeError(
+                    "Cần cài PyMuPDF hoặc pdfplumber để đọc file PDF. "
+                    "Chạy: pip install PyMuPDF hoặc pip install pdfplumber"
+                )
+    
+    elif suffix == ".docx":
+        data = processor.extract_paragraphs_with_ids(str(file_path))
+        return "\n".join(p_data["text"] for p_data in data["paragraphs"].values())
+    
+    else:
+        raise ValueError(f"Định dạng '{suffix}' chưa được hỗ trợ")
+
+
+@app.post("/api/upload-reference")
+async def upload_reference_file(file: UploadFile = File(...)):
+    """Upload file tham khảo (.md, .pdf, .txt, .docx)."""
+    if not file.filename:
+        raise HTTPException(status_code=400, detail="Thiếu tên file")
+    
+    allowed_exts = {".md", ".pdf", ".txt", ".docx"}
+    suffix = Path(file.filename).suffix.lower()
+    if suffix not in allowed_exts:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Chỉ chấp nhận file {', '.join(allowed_exts)}",
+        )
+
+    safe_name = file.filename.replace(" ", "_")
+    save_path = REFERENCE_DIR / safe_name
+
+    try:
+        content = await file.read()
+        save_path.write_bytes(content)
+        logger.info("📎 Uploaded reference: %s (%d bytes)", safe_name, len(content))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Lỗi khi lưu file: {e}")
+
+    return {
+        "message": "Upload tài liệu tham khảo thành công",
+        "filename": safe_name,
+        "size": len(content),
+    }
+
+
+@app.get("/api/reference-files")
+async def list_reference_files():
+    """Liệt kê tất cả file tham khảo đã upload."""
+    files = []
+    for f in sorted(REFERENCE_DIR.iterdir()):
+        if f.name.startswith("."):
+            continue
+        files.append({
+            "name": f.name,
+            "size": f.stat().st_size,
+        })
+    return {"files": files}
+
+
+@app.delete("/api/reference-files/{filename}")
+async def delete_reference_file(filename: str):
+    """Xóa file tài liệu tham khảo."""
+    file_path = REFERENCE_DIR / filename
+    if not file_path.exists():
+        raise HTTPException(
+            status_code=404, detail=f"Không tìm thấy file tham khảo '{filename}' để xóa"
+        )
+    try:
+        file_path.unlink()
+        logger.info("🗑️ Deleted reference file: %s", filename)
+        return {"message": f"Đã xóa file tham khảo '{filename}' thành công"}
+    except Exception as e:
+        logger.error("Lỗi khi xóa file tham khảo %s: %s", filename, e)
+        raise HTTPException(
+            status_code=500, detail=f"Lỗi khi xóa file tham khảo: {e}"
+        )
+
+
+
 
 
 @app.get("/api/editor-config/{filename}")
@@ -453,7 +606,8 @@ async def trigger_ai_edit(
     Request body:
     {
         "filename": "bao_cao.docx",
-        "requirement": "Sửa lỗi chính tả và viết trang trọng hơn"
+        "requirement": "Sửa lỗi chính tả và viết trang trọng hơn",
+        "reference_filename": "tai_lieu_tham_khao.docx" (tùy chọn)
     }
 
     Response:
@@ -472,6 +626,7 @@ async def trigger_ai_edit(
 
     filename = body.get("filename", "").strip()
     requirement = body.get("requirement", "").strip()
+    reference_filename = body.get("reference_filename", "").strip()
 
     if not filename:
         raise HTTPException(status_code=400, detail="Thiếu 'filename'")
@@ -490,6 +645,32 @@ async def trigger_ai_edit(
             status_code=404, detail=f"File '{filename}' không tồn tại"
         )
 
+    # Trích xuất tài liệu tham khảo nếu có (hỗ trợ nhiều tài liệu cách nhau bằng dấu phẩy)
+    reference_text = None
+    if reference_filename:
+        reference_text_list = []
+        ref_names = [r.strip() for r in reference_filename.split(",") if r.strip()]
+        for ref_name in ref_names:
+            ref_path = config.EDITED_DIR / ref_name
+            if not ref_path.exists():
+                ref_path = config.UPLOADS_DIR / ref_name
+            if not ref_path.exists():
+                ref_path = REFERENCE_DIR / ref_name
+            if not ref_path.exists():
+                raise HTTPException(
+                    status_code=404, detail=f"Tài liệu tham khảo '{ref_name}' không tồn tại"
+                )
+            try:
+                txt = _extract_reference_text(ref_path)
+                reference_text_list.append(f"=== NỘI DUNG TÀI LIỆU THAM KHẢO: {ref_name} ===\n{txt}")
+                logger.info("📄 Đã trích xuất %d ký tự từ tài liệu tham khảo '%s'", len(txt), ref_name)
+            except Exception as e:
+                raise HTTPException(
+                    status_code=500, detail=f"Lỗi khi trích xuất tài liệu tham khảo '{ref_name}': {e}"
+                )
+        if reference_text_list:
+            reference_text = "\n\n".join(reference_text_list)
+
     # Kiểm tra API key
     if not config.GEMINI_API_KEY:
         raise HTTPException(
@@ -503,17 +684,18 @@ async def trigger_ai_edit(
         "status": "queued",
         "filename": filename,
         "requirement": requirement,
+        "reference_filename": reference_filename or None,
         "message": "Đang chờ xử lý...",
         "created_at": time.time(),
     }
 
     # Chạy AI processing trong background
     background_tasks.add_task(
-        _background_ai_process, file_path, task_id, requirement
+        _background_ai_process, file_path, task_id, requirement, reference_text
     )
 
     logger.info(
-        "🚀 Đã đưa vào hàng đợi AI edit: %s (task=%s)", filename, task_id
+        "🚀 Đã đưa vào hàng đợi AI edit: %s (task=%s, ref=%s)", filename, task_id, reference_filename or "None"
     )
 
     return {
@@ -559,8 +741,13 @@ async def extract_paragraphs(filename: str, source: str = "uploads"):
             raise HTTPException(status_code=404, detail=f"File '{filename}' not found")
 
     try:
-        paragraphs = processor.extract_paragraphs_with_ids(str(file_path))
-        return {"filename": filename, "source": source, "paragraphs": paragraphs}
+        data = processor.extract_paragraphs_with_ids(str(file_path))
+        return {
+            "filename": filename, 
+            "source": source, 
+            "html": data["html"], 
+            "paragraphs": data["paragraphs"]
+        }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Lỗi khi trích xuất: {e}")
 
