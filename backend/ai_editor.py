@@ -24,6 +24,11 @@ logger = logging.getLogger(__name__)
 _SYSTEM_PROMPT = """\
 Bạn là một biên tập viên văn bản cao cấp, chuyên nghiệp và cực kỳ tỉ mỉ.
 
+## NGUYÊN TẮC TỐI THƯỢNG (TUYỆT ĐỐI TUÂN THỦ)
+1. **Tính bảo toàn**: Bạn chỉ được phép chỉnh sửa những đoạn văn thực sự liên quan trực tiếp đến yêu cầu của người dùng. Nếu đoạn văn nào không chứa từ khóa cần chỉnh sửa hoặc không thuộc đối tượng được yêu cầu, TUYỆT ĐỐI KHÔNG ĐƯỢC CHỈNH SỬA VÀ KHÔNG ĐƯỢC ĐƯA VÀO DANH SÁCH `edits`.
+2. **Không tự ý tối ưu hóa**: Tuyệt đối không được thay đổi từ ngữ, cấu trúc câu hoặc sửa lỗi chính tả ở những đoạn văn không liên quan nhằm mục đích "làm đẹp" hay "tối ưu". Hãy giữ nguyên 100% bản gốc.
+3. **Độ chính xác cao**: Nếu yêu cầu của người dùng chỉ là sửa/xóa một từ cụ thể (ví dụ: "DOM"), bạn chỉ được thực hiện thao tác trên từ đó, giữ nguyên toàn bộ các từ còn lại trong câu, không viết lại câu theo cách khác.
+
 ## NHIỆM VỤ
 1. Nhận một đối tượng JSON chứa các đoạn văn bản của tài liệu gốc (mỗi key là ID đoạn, value là nội dung).
 2. Chỉnh sửa nội dung tài liệu gốc theo yêu cầu của người dùng.
@@ -62,6 +67,18 @@ Ví dụ kết quả trả về:
   ]
 }
 
+## NGUYÊN TẮC CHỈNH SỬA BẮT BUỘC (TRÁNH SỬA LAN MAN, LỘN XỘN)
+1. **Chỉ sửa đổi khi thực sự cần thiết**:
+   - Chỉ đưa vào danh sách `edits` những đoạn văn thực sự cần thay đổi để phục vụ trực tiếp cho yêu cầu của người dùng.
+   - Nếu một đoạn văn không liên quan đến yêu cầu của người dùng, **tuyệt đối không được chỉnh sửa, không được tối ưu hóa lại câu chữ, không được đưa vào danh sách edits**. Giữ nguyên bản 100%.
+2. **Tuyệt đối không tráo đổi nội dung giữa các đoạn văn**:
+   - Mỗi ID đại diện cho một vị trí cố định trong tài liệu (ví dụ: một ô cụ thể trong bảng, một đề mục).
+   - Tuyệt đối không được sao chép hoặc chuyển nội dung của đoạn này (ví dụ: Mô tả) sang đoạn khác (ví dụ: Đường dẫn) làm xáo trộn bố cục tài liệu.
+3. **Xử lý yêu cầu cụ thể (Ví dụ: Thêm/Xóa/Thay thế từ cụm từ cụ thể như "DOM")**:
+   - Nếu người dùng yêu cầu xóa hoặc sửa một từ cụ thể (ví dụ: "DOM"), bạn chỉ được thay đổi các đoạn văn thực sự chứa từ đó.
+   - Khi sửa, chỉ thực hiện chỉnh sửa tối thiểu (xóa từ đó hoặc thay bằng từ thích hợp), **tuyệt đối không viết lại toàn bộ câu hoặc thay đổi các thông tin khác trong đoạn văn đó**.
+   - Các đoạn văn không chứa từ/cụm từ đó phải được giữ nguyên hoàn toàn.
+
 ## QUY TẮC KHÁC & CẤM TUYỆT ĐỐI SỬ DỤNG BẢNG MARKDOWN:
 1. **Cấm sử dụng ký pháp bảng của Markdown**:
    - TUYỆT ĐỐI KHÔNG trả về các ký tự vẽ bảng như `|---|---|` hay `| Cột 1 | Cột 2 |` trong trường `text` của bất kỳ hành động nào.
@@ -83,7 +100,7 @@ def generate_ai_edit(
     reference_text: Optional[str] = None,
     model: str = "gemini-3.5-flash",
     api_key: Optional[str] = None,
-    temperature: float = 0.4,
+    temperature: float = 0.0,
 ) -> Dict[str, str]:
     """
     Gọi Google Gemini API để chỉnh sửa văn bản theo yêu cầu người dùng, 
@@ -189,6 +206,31 @@ def generate_ai_edit(
     raw_content = response.text
     if not raw_content:
         raise ValueError("Gemini API trả về response rỗng.")
+
+    # ── Ghi log request/response ra file để kiểm tra ──
+    try:
+        from pathlib import Path
+        log_dir = Path(os.path.dirname(__file__)) / "storage" / "logs"
+        log_dir.mkdir(parents=True, exist_ok=True)
+        
+        # Ghi request
+        request_log = {
+            "requirement": user_requirement,
+            "has_reference": bool(reference_text),
+            "reference_text": reference_text,
+            "input_blocks": extracted_text_dict
+        }
+        (log_dir / "last_request_input.json").write_text(
+            json.dumps(request_log, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
+        
+        # Ghi response
+        (log_dir / "last_request_response.json").write_text(
+            raw_content, encoding="utf-8"
+        )
+        logger.info("💾 Đã ghi log request/response vào thư mục storage/logs/")
+    except Exception as log_err:
+        logger.warning("Không thể ghi log request/response: %s", log_err)
 
     logger.debug("Raw API response: %s", raw_content[:500])
 

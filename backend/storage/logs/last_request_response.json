@@ -1,0 +1,1340 @@
+{
+  "edits": [
+    {
+      "id": "p_1",
+      "action": "modify",
+      "text": "TÀI LIỆU GIẢI PHÁP KỸ THUẬT — FRONTEND"
+    },
+    {
+      "id": "p_2",
+      "action": "modify",
+      "text": "GENHUB — NÂNG CẤP LAYOUT BUILDER & LAYOUT DISPLAYS (TỔNG EFFORT: 38.0 GIỜ)"
+    },
+    {
+      "id": "p_3",
+      "action": "modify",
+      "text": "Thiết kế giải pháp, các bước thực hiện và lưu ý triển khai cho từng yêu cầu cải tiến"
+    },
+    {
+      "id": "p_4",
+      "action": "modify",
+      "text": "Mã hiệu dự án: GP_GENHUB_LAYOUT_IMPROVEMENT"
+    },
+    {
+      "id": "p_5",
+      "action": "modify",
+      "text": "Tài liệu kế thừa: Báo cáo phân tích Repeater & Bảng tổng hợp Effort Frontend"
+    },
+    {
+      "id": "p_6",
+      "action": "modify",
+      "text": "Hà Nội, Tháng 06/2026"
+    },
+    {
+      "id": "p_7",
+      "action": "modify",
+      "text": "MỤC LỤC"
+    },
+    {
+      "id": "p_8",
+      "action": "modify",
+      "text": "CHỨC NĂNG 1: NÂNG CẤP REPEATER COMPONENT (SLIDESHOW, CONTEXT BINDING & REGISTRY)"
+    },
+    {
+      "id": "p_9",
+      "action": "modify",
+      "text": "1.1 Phạm vi thay đổi"
+    },
+    {
+      "id": "p_10",
+      "action": "modify",
+      "text": "Tạo mới: File tiện ích context.util.ts hỗ trợ giải mã dữ liệu động qua nhiều cấp Repeater lồng nhau."
+    },
+    {
+      "id": "p_11",
+      "action": "modify",
+      "text": "Sửa: repeater-config (thêm Toggle Switch Slideshow, dropdown chọn Data Key), display-repeater (thuật toán drag-scroll, glide & snap, nút chevron, dynamic card width, buildRepeatedItems với cloneWithUniqueId), layout-block (Canvas Preview trượt và chevron, khử nhân đôi width)."
+    },
+    {
+      "id": "p_12",
+      "action": "modify",
+      "text": "Không áp dụng: Các component hiển thị tĩnh không nằm trong danh sách lặp."
+    },
+    {
+      "id": "p_13",
+      "action": "modify",
+      "text": "1.2 Trách nhiệm từng phần"
+    },
+    {
+      "id": "p_14",
+      "action": "modify",
+      "text": "Thành phần"
+    },
+    {
+      "id": "p_15",
+      "action": "modify",
+      "text": "Trách nhiệm"
+    },
+    {
+      "id": "p_16",
+      "action": "modify",
+      "text": "repeater-config (Cấu hình)"
+    },
+    {
+      "id": "p_17",
+      "action": "modify",
+      "text": "Tích hợp Toggle Switch bật/tắt chế độ Slideshow trượt ngang; nhận danh sách keys qua Input và chuyển đổi ô nhập chữ tự do Data Key thành dạng Dropdown chứa danh sách gợi ý cấu trúc dữ liệu cha."
+    },
+    {
+      "id": "p_18",
+      "action": "modify",
+      "text": "display-repeater (Hiển thị)"
+    },
+    {
+      "id": "p_19",
+      "action": "modify",
+      "text": "Xử lý thuật toán drag-scroll kéo rê chuột, glide & snap về slide gần nhất, nút chevron ẩn hiện, dynamic card width; cập nhật buildRepeatedItems để gán ID mới duy nhất cho các phần tử con qua cloneWithUniqueId."
+    },
+    {
+      "id": "p_20",
+      "action": "modify",
+      "text": "layout-block (Preview)"
+    },
+    {
+      "id": "p_21",
+      "action": "modify",
+      "text": "Dựng UI trượt và chevron thử nghiệm trên Canvas Preview; khử nhân đôi width container con trên Canvas."
+    },
+    {
+      "id": "p_22",
+      "action": "modify",
+      "text": "1.3 Các bước thực hiện"
+    },
+    {
+      "id": "p_23",
+      "action": "modify",
+      "text": "Tạo mới file context.util.ts: Viết interface BlockContext và hàm resolveContextValue hỗ trợ truy xuất dot-notation, xử lý các biến đặc biệt như $implicit, $index, $parent."
+    },
+    {
+      "id": "p_24",
+      "action": "modify",
+      "text": "Cập nhật repeater-config.component.html & .ts: Thiết kế công tắc Toggle Switch kích hoạt chế độ Slideshow; viết hàm onShowAsSliderChange() cập nhật cờ slider và khởi tạo mặc định."
+    },
+    {
+      "id": "p_25",
+      "action": "modify",
+      "text": "Cập nhật display-repeater.component.html & .ts: Cấu trúc slider track, gắn chặn rê kéo ảnh mặc định; viết thuật toán kéo rê chuột, snap slide khi nhả chuột, nút điều hướng chevron, dynamic width."
+    },
+    {
+      "id": "p_26",
+      "action": "modify",
+      "text": "Sửa đổi layout-builder.component.ts: Thêm registry trung tâm repeaterDataSources; viết hàm walkAndRegisterRepeaters để duyệt đệ quy cây layout, phân tích cấu trúc dữ liệu mẫu của repeater cha và đăng ký danh sách childKeys cho các node con."
+    },
+    {
+      "id": "p_27",
+      "action": "modify",
+      "text": "Cập nhật layout-block.component.html & .ts: Thêm cấu trúc Slider Preview và các chevron trượt thử trên Canvas; xử lý click trượt preview và hàm khử nhân đôi width container con."
+    },
+    {
+      "id": "p_28",
+      "action": "modify",
+      "text": "Sửa đổi các component hiển thị con (Alert, Avatar, Button, Chip, Image, Progress, Text): Refactor logic lấy giá trị động, chuyển sang gọi hàm chung resolveContextValue thông qua itemContext hoặc dataContext."
+    },
+    {
+      "id": "p_29",
+      "action": "modify",
+      "text": "Cấu hình nguồn dữ liệu linh hoạt (Value Data): Bổ sung trường valueData vào interface RepeaterConfig; sửa logic buildRepeatedItems để parse JSON hoặc resolve đường dẫn context cha; thêm ô nhập liệu Value Data vào repeater-config."
+    },
+    {
+      "id": "p_30",
+      "action": "modify",
+      "text": "Điều chỉnh hướng lặp (Direction): Đưa hiển thị dạng dọc (Column) lên làm tùy chọn mặc định trong giao diện cấu hình repeater-config.component.html."
+    },
+    {
+      "id": "p_31",
+      "action": "modify",
+      "text": "Kiểm tra các trường hợp biên: Chế độ Slideshow hoạt động mượt mà, kéo thả không bị giật lag, dữ liệu lồng nhau hiển thị chính xác, không trùng lặp tham chiếu vùng nhớ."
+    },
+    {
+      "id": "p_32",
+      "action": "modify",
+      "text": "1.4 Lưu ý triển khai"
+    },
+    {
+      "id": "p_33",
+      "action": "modify",
+      "text": "Cơ chế Change Detection mặc định có thể gây ảnh hưởng hiệu năng khi clone sâu liên tục, cần lưu ý tối ưu hóa trong các giai đoạn tiếp theo."
+    },
+    {
+      "id": "p_34",
+      "action": "modify",
+      "text": "Hàm registry rebuild chạy trực tiếp trong ngDoCheck của Builder cần được kiểm soát để tránh giật lag khi kéo thả thiết kế."
+    },
+    {
+      "id": "p_35",
+      "action": "modify",
+      "text": "Đảm bảo đồng bộ thuộc tính showAsSlider, url, urlKey, urlTarget, anchorKey, anchorId, hidden, min, max, step trong model base ở cả 2 bên Builder và Displays."
+    },
+    {
+      "id": "p_36",
+      "action": "modify",
+      "text": "Sanitize và validate dữ liệu JSON nhập vào trường Value Data để tránh lỗi runtime khi parse."
+    },
+    {
+      "id": "p_37",
+      "action": "modify",
+      "text": "CHỨC NĂNG 2: NÂNG CẤP BUTTON COMPONENT (LINK URL & ANCHOR LINK)"
+    },
+    {
+      "id": "p_38",
+      "action": "modify",
+      "text": "2.1 Phạm vi thay đổi"
+    },
+    {
+      "id": "p_39",
+      "action": "modify",
+      "text": "Bản chất chức năng: Cho phép cấu hình nút bấm liên kết đến một URL tĩnh/động hoặc nhảy đến một mốc neo (Anchor ID) trên trang với hiệu ứng cuộn mượt."
+    },
+    {
+      "id": "p_40",
+      "action": "modify",
+      "text": "Tạo mới: Không."
+    },
+    {
+      "id": "p_41",
+      "action": "modify",
+      "text": "Sửa: button-config (dựng layout chọn khóa động từ repeater hoặc nhập tĩnh cho Link URL và Anchor ID), display-button (render thẻ <a> thay thế <button> cho action Link/Anchor, xử lý smooth scroll)."
+    },
+    {
+      "id": "p_42",
+      "action": "modify",
+      "text": "Không áp dụng: Các nút bấm thực hiện action submit form hoặc reset thông thường."
+    },
+    {
+      "id": "p_43",
+      "action": "modify",
+      "text": "2.2 Trách nhiệm từng phần"
+    },
+    {
+      "id": "p_44",
+      "action": "modify",
+      "text": "Thành phần"
+    },
+    {
+      "id": "p_45",
+      "action": "modify",
+      "text": "Trách nhiệm"
+    },
+    {
+      "id": "p_46",
+      "action": "modify",
+      "text": "button-config (Cấu hình)"
+    },
+    {
+      "id": "p_47",
+      "action": "modify",
+      "text": "Dựng layout chọn khóa động từ repeater hoặc nhập tĩnh riêng biệt cho cả Link URL và Anchor ID; trực quan hóa panel, viết callbacks dọn dẹp các trường rác khi thay đổi actionType."
+    },
+    {
+      "id": "p_48",
+      "action": "modify",
+      "text": "display-button (Hiển thị)"
+    },
+    {
+      "id": "p_49",
+      "action": "modify",
+      "text": "Render thẻ <a> thay thế <button> khi actionType là Link/Anchor; viết giải quyết URL/Anchor động từ context, viết sự kiện chặn click để nhảy cuộn mượt."
+    },
+    {
+      "id": "p_50",
+      "action": "modify",
+      "text": "Model Base (Shared)"
+    },
+    {
+      "id": "p_51",
+      "action": "modify",
+      "text": "Khai báo các thuộc tính mới cho interface Button (url, urlKey, urlTarget, anchorKey, anchorId) ở cả 2 bên Builder và Displays."
+    },
+    {
+      "id": "p_52",
+      "action": "modify",
+      "text": "2.3 Các bước thực hiện"
+    },
+    {
+      "id": "p_53",
+      "action": "modify",
+      "text": "Cập nhật button-config.component.html: Dựng layout chọn khóa động hoặc nhập tĩnh riêng biệt cho cả Link URL và Anchor ID (gồm 5 trường mới)."
+    },
+    {
+      "id": "p_54",
+      "action": "modify",
+      "text": "Cập nhật button-config.component.ts: Trực quan hóa panel, viết callbacks dọn dẹp các trường rác khi thay đổi actionType."
+    },
+    {
+      "id": "p_55",
+      "action": "modify",
+      "text": "Cập nhật display-button.component.html: Đổi cấu trúc thẻ <button> sang thẻ liên kết <a> khi actionType là Link/Anchor."
+    },
+    {
+      "id": "p_56",
+      "action": "modify",
+      "text": "Cập nhật display-button.component.ts: Viết giải quyết URL/Anchor động từ context, viết sự kiện chặn click để nhảy cuộn mượt."
+    },
+    {
+      "id": "p_57",
+      "action": "modify",
+      "text": "Khai báo 5 trường thông tin mới (Design-time) cho button-config:"
+    },
+    {
+      "id": "p_58",
+      "action": "modify",
+      "text": "1. Trường liên kết từ Repeater (urlKey) - Dropdown chọn cột dữ liệu chứa link."
+    },
+    {
+      "id": "p_59",
+      "action": "modify",
+      "text": "2. Liên kết tĩnh (url) - Input nhập URL/Deeplink."
+    },
+    {
+      "id": "p_60",
+      "action": "modify",
+      "text": "3. Target chuyển trang (urlTarget) - Dropdown chọn mở tab mới hoặc chuyển hướng tại chỗ."
+    },
+    {
+      "id": "p_61",
+      "action": "modify",
+      "text": "4. Trường Anchor ID từ Repeater (anchorKey) - Dropdown chọn cột dữ liệu chứa ID phần tử neo."
+    },
+    {
+      "id": "p_62",
+      "action": "modify",
+      "text": "5. Anchor ID tĩnh (anchorId) - Input nhập ID phần tử neo nhảy tới."
+    },
+    {
+      "id": "p_63",
+      "action": "modify",
+      "text": "Đồng bộ các thuộc tính cấu hình mới vào models/layout-node-base.ts ở cả hai phía Builder và Displays."
+    },
+    {
+      "id": "p_64",
+      "action": "modify",
+      "text": "Kiểm tra các trường hợp biên: Link URL rỗng, Anchor ID không tồn tại trên trang, click chuyển hướng trong tab mới và tab hiện tại."
+    },
+    {
+      "id": "p_65",
+      "action": "modify",
+      "text": "2.4 Lưu ý triển khai"
+    },
+    {
+      "id": "p_66",
+      "action": "modify",
+      "text": "Khi chuyển đổi sang thẻ <a>, cần đảm bảo các thuộc tính CSS styling của nút bấm không bị ảnh hưởng hoặc bị vỡ giao diện."
+    },
+    {
+      "id": "p_67",
+      "action": "modify",
+      "text": "Xử lý smooth scroll bằng lập trình cần kiểm tra tính tương thích trên các trình duyệt khác nhau."
+    },
+    {
+      "id": "p_68",
+      "action": "modify",
+      "text": "CHỨC NĂNG 3: NÂNG CẤP INPUT COMPONENT (KIỂU SỐ NUMBER & VALIDATOR)"
+    },
+    {
+      "id": "p_69",
+      "action": "modify",
+      "text": "3.1 Phạm vi thay đổi"
+    },
+    {
+      "id": "p_70",
+      "action": "modify",
+      "text": "Tạo mới: Không."
+    },
+    {
+      "id": "p_71",
+      "action": "modify",
+      "text": "Sửa: input-config (thêm loại Input 'Number', tích hợp validator Min, Max, Step, check lỗi Default Value), display-input (render component <nz-input-number>, viết bộ lọc sự kiện gõ phím tránh trôi/reset con trỏ chuột)."
+    },
+    {
+      "id": "p_72",
+      "action": "modify",
+      "text": "Không áp dụng: Các loại input text, textarea, checkbox, radio thông thường."
+    },
+    {
+      "id": "p_73",
+      "action": "modify",
+      "text": "3.2 Trách nhiệm từng phần"
+    },
+    {
+      "id": "p_74",
+      "action": "modify",
+      "text": "Thành phần"
+    },
+    {
+      "id": "p_75",
+      "action": "modify",
+      "text": "Trách nhiệm"
+    },
+    {
+      "id": "p_76",
+      "action": "modify",
+      "text": "input-config (Cấu hình)"
+    },
+    {
+      "id": "p_77",
+      "action": "modify",
+      "text": "Thêm loại Input 'Number', tích hợp các validator đặc thù (Min, Max, Step), check lỗi Default Value; viết logic patchOptionalNumber giới hạn số và validate Default Value."
+    },
+    {
+      "id": "p_78",
+      "action": "modify",
+      "text": "display-input (Hiển thị)"
+    },
+    {
+      "id": "p_79",
+      "action": "modify",
+      "text": "Render component <nz-input-number>; viết bộ lọc sự kiện gõ phím tránh trôi/reset con trỏ chuột; đồng bộ chiều rộng 100% và bo góc cho phần tử nz-input-number."
+    },
+    {
+      "id": "p_80",
+      "action": "modify",
+      "text": "3.3 Các bước thực hiện"
+    },
+    {
+      "id": "p_81",
+      "action": "modify",
+      "text": "Cập nhật input-config.component.html: Thêm loại 'Number' vào dropdown, ẩn các validator chữ, hiện validator số (Min, Max, Step)."
+    },
+    {
+      "id": "p_82",
+      "action": "modify",
+      "text": "Cập nhật input-config.component.ts: Viết logic patchOptionalNumber giới hạn số và hàm validate Default Value."
+    },
+    {
+      "id": "p_83",
+      "action": "modify",
+      "text": "Cập nhật input-config.component.scss: Styling thông báo báo lỗi màu đỏ khi gõ sai định dạng mặc định kiểu số."
+    },
+    {
+      "id": "p_84",
+      "action": "modify",
+      "text": "Cập nhật display-input.component.html: Nhúng <nz-input-number> hiển thị nhập số thực tế."
+    },
+    {
+      "id": "p_85",
+      "action": "modify",
+      "text": "Cập nhật display-input.component.ts: Viết hàm onNumberInput giải quyết vấn đề trôi con trỏ chuột khi người dùng nhập số thập phân."
+    },
+    {
+      "id": "p_86",
+      "action": "modify",
+      "text": "Cập nhật display-input.component.scss: Đồng bộ chiều rộng 100% và bo góc cho phần tử nz-input-number."
+    },
+    {
+      "id": "p_87",
+      "action": "modify",
+      "text": "Khai báo 4 trường thông tin mới (Design-time) cho input-config:"
+    },
+    {
+      "id": "p_88",
+      "action": "modify",
+      "text": "1. Lựa chọn kiểu số Number cho Input Type (Dropdown)."
+    },
+    {
+      "id": "p_89",
+      "action": "modify",
+      "text": "2. Min - Input nhập giá trị nhỏ nhất."
+    },
+    {
+      "id": "p_90",
+      "action": "modify",
+      "text": "3. Max - Input nhập giá trị lớn nhất."
+    },
+    {
+      "id": "p_91",
+      "action": "modify",
+      "text": "4. Step - Input nhập bước nhảy."
+    },
+    {
+      "id": "p_92",
+      "action": "modify",
+      "text": "Đồng bộ các thuộc tính cấu hình mới (min, max, step) vào models/layout-node-base.ts ở cả hai phía."
+    },
+    {
+      "id": "p_93",
+      "action": "modify",
+      "text": "Kiểm tra các trường hợp biên: Nhập số ngoài khoảng Min/Max, nhập ký tự không phải số, nhập số thập phân với Step tương ứng."
+    },
+    {
+      "id": "p_94",
+      "action": "modify",
+      "text": "3.4 Lưu ý triển khai"
+    },
+    {
+      "id": "p_95",
+      "action": "modify",
+      "text": "Bộ lọc sự kiện gõ phím cần được tối ưu để tránh hiện tượng reset con trỏ chuột khi người dùng nhập nhanh hoặc nhập số thập phân."
+    },
+    {
+      "id": "p_96",
+      "action": "modify",
+      "text": "CHỨC NĂNG 4: NÂNG CẤP CONTAINER COMPONENT (ẨN/HIỆN & ĐIỀU CHỈNH CHIỀU RỘNG)"
+    },
+    {
+      "id": "p_97",
+      "action": "modify",
+      "text": "4.1 Phạm vi thay đổi"
+    },
+    {
+      "id": "p_98",
+      "action": "modify",
+      "text": "Tạo mới: Không."
+    },
+    {
+      "id": "p_99",
+      "action": "modify",
+      "text": "Sửa: container-config (bổ sung Switch điều khiển trạng thái ẩn/hiện hidden), display-container (áp dụng display: none khi hidden = true; fix lỗi co cụm width card khi nằm trong repeater)."
+    },
+    {
+      "id": "p_100",
+      "action": "modify",
+      "text": "Không áp dụng: Các component layout khác không sử dụng container."
+    },
+    {
+      "id": "p_101",
+      "action": "modify",
+      "text": "4.2 Trách nhiệm từng phần"
+    },
+    {
+      "id": "p_102",
+      "action": "modify",
+      "text": "Thành phần"
+    },
+    {
+      "id": "p_103",
+      "action": "modify",
+      "text": "Trách nhiệm"
+    },
+    {
+      "id": "p_104",
+      "action": "modify",
+      "text": "container-config (Cấu hình)"
+    },
+    {
+      "id": "p_105",
+      "action": "modify",
+      "text": "Bổ sung Switch điều khiển trạng thái ẩn/hiện (hidden) của container; CSS định dạng lại nz-switch hiển thị hợp lý trong panel."
+    },
+    {
+      "id": "p_106",
+      "action": "modify",
+      "text": "display-container (Hiển thị)"
+    },
+    {
+      "id": "p_107",
+      "action": "modify",
+      "text": "Áp dụng display: none khi hidden = true; khôi phục hàm getChildWidthStyle để tính toán tỉ lệ flex-basis/width cho các block con nằm trong container dựa trên hướng hiển thị; sửa logic giãn rộng 100% khi Container nằm trong Repeater thường/slide."
+    },
+    {
+      "id": "p_108",
+      "action": "modify",
+      "text": "4.3 Các bước thực hiện"
+    },
+    {
+      "id": "p_109",
+      "action": "modify",
+      "text": "Cập nhật container-config.component.html: Bổ sung Switch điều khiển trạng thái ẩn/hiện (hidden)."
+    },
+    {
+      "id": "p_110",
+      "action": "modify",
+      "text": "Cập nhật container-config.component.scss: CSS định dạng lại nz-switch hiển thị hợp lý trong panel."
+    },
+    {
+      "id": "p_111",
+      "action": "modify",
+      "text": "Cập nhật display-container.component.html: Áp dụng binding [ngStyle] hoặc style.display để ẩn/hiện container bằng display none: [style.display]=\"cfg.hidden ? 'none' : 'block'\"; áp dụng binding [ngStyle]=\"getChildWidthStyle(child)\" cho lớp bao ngoài mỗi block con."
+    },
+    {
+      "id": "p_112",
+      "action": "modify",
+      "text": "Cập nhật display-container.component.ts: Khôi phục hàm getChildWidthStyle để tính toán tỉ lệ flex-basis/width cho các block con; sửa logic giãn rộng 100% khi Container nằm trong Repeater thường/slide."
+    },
+    {
+      "id": "p_113",
+      "action": "modify",
+      "text": "Khai báo 1 trường thông tin mới (Design-time) cho container-config: Hidden (Ẩn hiển thị) - Switch bật/tắt trạng thái ẩn container."
+    },
+    {
+      "id": "p_114",
+      "action": "modify",
+      "text": "Đồng bộ thuộc tính hidden vào models/layout-node-base.ts ở cả hai phía."
+    },
+    {
+      "id": "p_115",
+      "action": "modify",
+      "text": "Kiểm tra các trường hợp biên: Container bị ẩn hoàn toàn khỏi DOM hiển thị, chiều rộng các card con co giãn khít 100% khi nằm trong repeater."
+    },
+    {
+      "id": "p_116",
+      "action": "modify",
+      "text": "4.4 Lưu ý triển khai"
+    },
+    {
+      "id": "p_117",
+      "action": "modify",
+      "text": "Việc áp dụng display: none cần đảm bảo không làm ảnh hưởng đến luồng tính toán kích thước của các component con bên trong khi chúng được hiển thị trở lại."
+    },
+    {
+      "id": "p_118",
+      "action": "modify",
+      "text": "CHỨC NĂNG 5: ĐỒNG BỘ MODEL BASE & ĐIỀU HƯỚNG LAYOUT DISPLAY"
+    },
+    {
+      "id": "p_119",
+      "action": "modify",
+      "text": "5.1 Phạm vi thay đổi"
+    },
+    {
+      "id": "p_120",
+      "action": "modify",
+      "text": "Tạo mới: Không."
+    },
+    {
+      "id": "p_121",
+      "action": "modify",
+      "text": "Sửa: Model Base (Shared) ở cả hai phía Builder và Displays, layout-display (Router tổng)."
+    },
+    {
+      "id": "p_122",
+      "action": "modify",
+      "text": "Không áp dụng: Các component không kế thừa từ Model Base."
+    },
+    {
+      "id": "p_123",
+      "action": "modify",
+      "text": "5.2 Trách nhiệm từng phần"
+    },
+    {
+      "id": "p_124",
+      "action": "modify",
+      "text": "Thành phần"
+    },
+    {
+      "id": "p_125",
+      "action": "modify",
+      "text": "Trách nhiệm"
+    },
+    {
+      "id": "p_126",
+      "action": "modify",
+      "text": "Model Base (Shared)"
+    },
+    {
+      "id": "p_127",
+      "action": "modify",
+      "text": "Đồng bộ các thuộc tính cấu hình mới (showAsSlider, url, urlKey, urlTarget, anchorKey, anchorId, hidden, min, max, step) cho interface Button, Repeater, Input, Container ở cả 2 bên."
+    },
+    {
+      "id": "p_128",
+      "action": "modify",
+      "text": "layout-display (Router tổng)"
+    },
+    {
+      "id": "p_129",
+      "action": "modify",
+      "text": "Khai báo truyền thuộc tính [id]=\"node?.id\" cho tất cả case block con để làm mốc nhảy Anchor."
+    },
+    {
+      "id": "p_130",
+      "action": "modify",
+      "text": "5.3 Các bước thực hiện"
+    },
+    {
+      "id": "p_131",
+      "action": "modify",
+      "text": "Cập nhật models/layout-node-base.ts (Builder): Khai báo các thuộc tính mới cho interface Button, Repeater, Input, Container."
+    },
+    {
+      "id": "p_132",
+      "action": "modify",
+      "text": "Cập nhật models/layout-node-base.ts (Displays): Bổ sung các cấu trúc trường động tương ứng để đồng bộ dữ liệu."
+    },
+    {
+      "id": "p_133",
+      "action": "modify",
+      "text": "Cập nhật layout-display.component.html: Khai báo truyền thuộc tính [id]=\"node?.id\" cho 30+ case blocks hiển thị để hỗ trợ làm mốc neo cuộn cho Anchor Link."
+    },
+    {
+      "id": "p_134",
+      "action": "modify",
+      "text": "Kiểm tra các trường hợp biên: Các block hiển thị nhận đúng ID từ cấu hình, Anchor Link cuộn mượt đến đúng vị trí block mục tiêu."
+    },
+    {
+      "id": "p_135",
+      "action": "modify",
+      "text": "5.4 Lưu ý triển khai"
+    },
+    {
+      "id": "p_136",
+      "action": "modify",
+      "text": "Đảm bảo việc gán ID không bị trùng lặp trên cùng một trang hiển thị để tránh lỗi điều hướng Anchor Link."
+    },
+    {
+      "id": "p_137",
+      "action": "delete"
+    },
+    {
+      "id": "p_138",
+      "action": "delete"
+    },
+    {
+      "id": "p_139",
+      "action": "delete"
+    },
+    {
+      "id": "p_140",
+      "action": "delete"
+    },
+    {
+      "id": "p_141",
+      "action": "delete"
+    },
+    {
+      "id": "p_142",
+      "action": "delete"
+    },
+    {
+      "id": "p_143",
+      "action": "delete"
+    },
+    {
+      "id": "p_144",
+      "action": "delete"
+    },
+    {
+      "id": "p_145",
+      "action": "delete"
+    },
+    {
+      "id": "p_146",
+      "action": "delete"
+    },
+    {
+      "id": "p_147",
+      "action": "delete"
+    },
+    {
+      "id": "p_148",
+      "action": "delete"
+    },
+    {
+      "id": "p_149",
+      "action": "delete"
+    },
+    {
+      "id": "p_150",
+      "action": "delete"
+    },
+    {
+      "id": "p_151",
+      "action": "delete"
+    },
+    {
+      "id": "p_152",
+      "action": "delete"
+    },
+    {
+      "id": "p_153",
+      "action": "delete"
+    },
+    {
+      "id": "p_154",
+      "action": "delete"
+    },
+    {
+      "id": "p_155",
+      "action": "delete"
+    },
+    {
+      "id": "p_156",
+      "action": "delete"
+    },
+    {
+      "id": "p_157",
+      "action": "delete"
+    },
+    {
+      "id": "p_158",
+      "action": "delete"
+    },
+    {
+      "id": "p_159",
+      "action": "delete"
+    },
+    {
+      "id": "p_160",
+      "action": "delete"
+    },
+    {
+      "id": "p_161",
+      "action": "delete"
+    },
+    {
+      "id": "p_162",
+      "action": "delete"
+    },
+    {
+      "id": "p_163",
+      "action": "delete"
+    },
+    {
+      "id": "p_164",
+      "action": "delete"
+    },
+    {
+      "id": "p_165",
+      "action": "delete"
+    },
+    {
+      "id": "p_166",
+      "action": "delete"
+    },
+    {
+      "id": "p_167",
+      "action": "delete"
+    },
+    {
+      "id": "p_168",
+      "action": "delete"
+    },
+    {
+      "id": "p_169",
+      "action": "delete"
+    },
+    {
+      "id": "p_170",
+      "action": "delete"
+    },
+    {
+      "id": "p_171",
+      "action": "delete"
+    },
+    {
+      "id": "p_172",
+      "action": "delete"
+    },
+    {
+      "id": "p_173",
+      "action": "delete"
+    },
+    {
+      "id": "p_174",
+      "action": "delete"
+    },
+    {
+      "id": "p_175",
+      "action": "delete"
+    },
+    {
+      "id": "p_176",
+      "action": "delete"
+    },
+    {
+      "id": "p_177",
+      "action": "delete"
+    },
+    {
+      "id": "p_178",
+      "action": "delete"
+    },
+    {
+      "id": "p_179",
+      "action": "delete"
+    },
+    {
+      "id": "p_180",
+      "action": "delete"
+    },
+    {
+      "id": "p_181",
+      "action": "delete"
+    },
+    {
+      "id": "p_182",
+      "action": "delete"
+    },
+    {
+      "id": "p_183",
+      "action": "delete"
+    },
+    {
+      "id": "p_184",
+      "action": "delete"
+    },
+    {
+      "id": "p_185",
+      "action": "delete"
+    },
+    {
+      "id": "p_186",
+      "action": "delete"
+    },
+    {
+      "id": "p_187",
+      "action": "delete"
+    },
+    {
+      "id": "p_188",
+      "action": "delete"
+    },
+    {
+      "id": "p_189",
+      "action": "delete"
+    },
+    {
+      "id": "p_190",
+      "action": "delete"
+    },
+    {
+      "id": "p_191",
+      "action": "delete"
+    },
+    {
+      "id": "p_192",
+      "action": "delete"
+    },
+    {
+      "id": "p_193",
+      "action": "delete"
+    },
+    {
+      "id": "p_194",
+      "action": "delete"
+    },
+    {
+      "id": "p_195",
+      "action": "delete"
+    },
+    {
+      "id": "p_196",
+      "action": "delete"
+    },
+    {
+      "id": "p_197",
+      "action": "delete"
+    },
+    {
+      "id": "p_198",
+      "action": "delete"
+    },
+    {
+      "id": "p_199",
+      "action": "delete"
+    },
+    {
+      "id": "p_200",
+      "action": "delete"
+    },
+    {
+      "id": "p_201",
+      "action": "delete"
+    },
+    {
+      "id": "p_202",
+      "action": "delete"
+    },
+    {
+      "id": "p_203",
+      "action": "delete"
+    },
+    {
+      "id": "p_204",
+      "action": "delete"
+    },
+    {
+      "id": "p_205",
+      "action": "delete"
+    },
+    {
+      "id": "p_206",
+      "action": "delete"
+    },
+    {
+      "id": "p_207",
+      "action": "delete"
+    },
+    {
+      "id": "p_208",
+      "action": "delete"
+    },
+    {
+      "id": "p_209",
+      "action": "delete"
+    },
+    {
+      "id": "p_210",
+      "action": "delete"
+    },
+    {
+      "id": "p_211",
+      "action": "delete"
+    },
+    {
+      "id": "p_212",
+      "action": "delete"
+    },
+    {
+      "id": "p_213",
+      "action": "delete"
+    },
+    {
+      "id": "p_214",
+      "action": "delete"
+    },
+    {
+      "id": "p_215",
+      "action": "delete"
+    },
+    {
+      "id": "p_216",
+      "action": "delete"
+    },
+    {
+      "id": "p_217",
+      "action": "delete"
+    },
+    {
+      "id": "p_218",
+      "action": "delete"
+    },
+    {
+      "id": "p_219",
+      "action": "delete"
+    },
+    {
+      "id": "p_220",
+      "action": "delete"
+    },
+    {
+      "id": "p_221",
+      "action": "delete"
+    },
+    {
+      "id": "p_222",
+      "action": "delete"
+    },
+    {
+      "id": "p_223",
+      "action": "delete"
+    },
+    {
+      "id": "p_224",
+      "action": "delete"
+    },
+    {
+      "id": "p_225",
+      "action": "delete"
+    },
+    {
+      "id": "p_226",
+      "action": "delete"
+    },
+    {
+      "id": "p_227",
+      "action": "delete"
+    },
+    {
+      "id": "p_228",
+      "action": "delete"
+    },
+    {
+      "id": "p_229",
+      "action": "delete"
+    },
+    {
+      "id": "p_230",
+      "action": "delete"
+    },
+    {
+      "id": "p_231",
+      "action": "delete"
+    },
+    {
+      "id": "p_232",
+      "action": "delete"
+    },
+    {
+      "id": "p_233",
+      "action": "delete"
+    },
+    {
+      "id": "p_234",
+      "action": "delete"
+    },
+    {
+      "id": "p_235",
+      "action": "delete"
+    },
+    {
+      "id": "p_236",
+      "action": "delete"
+    },
+    {
+      "id": "p_237",
+      "action": "delete"
+    },
+    {
+      "id": "p_238",
+      "action": "delete"
+    },
+    {
+      "id": "p_239",
+      "action": "delete"
+    },
+    {
+      "id": "p_240",
+      "action": "delete"
+    },
+    {
+      "id": "p_241",
+      "action": "delete"
+    },
+    {
+      "id": "p_242",
+      "action": "delete"
+    },
+    {
+      "id": "p_243",
+      "action": "delete"
+    },
+    {
+      "id": "p_244",
+      "action": "delete"
+    },
+    {
+      "id": "p_245",
+      "action": "delete"
+    },
+    {
+      "id": "p_246",
+      "action": "delete"
+    },
+    {
+      "id": "p_247",
+      "action": "delete"
+    },
+    {
+      "id": "p_248",
+      "action": "delete"
+    },
+    {
+      "id": "p_249",
+      "action": "delete"
+    },
+    {
+      "id": "p_250",
+      "action": "delete"
+    },
+    {
+      "id": "p_251",
+      "action": "delete"
+    },
+    {
+      "id": "p_252",
+      "action": "delete"
+    },
+    {
+      "id": "p_253",
+      "action": "delete"
+    },
+    {
+      "id": "p_254",
+      "action": "delete"
+    },
+    {
+      "id": "p_255",
+      "action": "delete"
+    },
+    {
+      "id": "p_256",
+      "action": "delete"
+    },
+    {
+      "id": "p_257",
+      "action": "delete"
+    },
+    {
+      "id": "p_258",
+      "action": "delete"
+    },
+    {
+      "id": "p_259",
+      "action": "delete"
+    },
+    {
+      "id": "p_260",
+      "action": "delete"
+    },
+    {
+      "id": "p_261",
+      "action": "delete"
+    },
+    {
+      "id": "p_262",
+      "action": "delete"
+    },
+    {
+      "id": "p_263",
+      "action": "delete"
+    },
+    {
+      "id": "p_264",
+      "action": "delete"
+    },
+    {
+      "id": "p_265",
+      "action": "delete"
+    },
+    {
+      "id": "p_266",
+      "action": "delete"
+    },
+    {
+      "id": "p_267",
+      "action": "delete"
+    },
+    {
+      "id": "p_268",
+      "action": "delete"
+    },
+    {
+      "id": "p_269",
+      "action": "delete"
+    },
+    {
+      "id": "p_270",
+      "action": "delete"
+    },
+    {
+      "id": "p_271",
+      "action": "delete"
+    },
+    {
+      "id": "p_272",
+      "action": "delete"
+    },
+    {
+      "id": "p_273",
+      "action": "delete"
+    },
+    {
+      "id": "p_274",
+      "action": "delete"
+    },
+    {
+      "id": "p_275",
+      "action": "delete"
+    },
+    {
+      "id": "p_276",
+      "action": "delete"
+    },
+    {
+      "id": "p_277",
+      "action": "delete"
+    },
+    {
+      "id": "p_278",
+      "action": "delete"
+    },
+    {
+      "id": "p_279",
+      "action": "delete"
+    },
+    {
+      "id": "p_280",
+      "action": "delete"
+    },
+    {
+      "id": "p_281",
+      "action": "delete"
+    },
+    {
+      "id": "p_282",
+      "action": "delete"
+    },
+    {
+      "id": "p_283",
+      "action": "delete"
+    },
+    {
+      "id": "p_284",
+      "action": "delete"
+    },
+    {
+      "id": "p_285",
+      "action": "delete"
+    },
+    {
+      "id": "p_286",
+      "action": "delete"
+    },
+    {
+      "id": "p_287",
+      "action": "delete"
+    },
+    {
+      "id": "p_288",
+      "action": "delete"
+    },
+    {
+      "id": "p_289",
+      "action": "delete"
+    },
+    {
+      "id": "p_290",
+      "action": "delete"
+    },
+    {
+      "id": "p_291",
+      "action": "delete"
+    },
+    {
+      "id": "p_292",
+      "action": "delete"
+    },
+    {
+      "id": "p_293",
+      "action": "delete"
+    },
+    {
+      "id": "p_294",
+      "action": "delete"
+    },
+    {
+      "id": "p_295",
+      "action": "delete"
+    },
+    {
+      "id": "p_296",
+      "action": "delete"
+    },
+    {
+      "id": "p_297",
+      "action": "delete"
+    },
+    {
+      "id": "p_298",
+      "action": "delete"
+    },
+    {
+      "id": "p_299",
+      "action": "delete"
+    },
+    {
+      "id": "p_300",
+      "action": "delete"
+    }
+  ]
+}

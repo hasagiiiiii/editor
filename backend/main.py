@@ -627,6 +627,7 @@ async def trigger_ai_edit(
     filename = body.get("filename", "").strip()
     requirement = body.get("requirement", "").strip()
     reference_filename = body.get("reference_filename", "").strip()
+    mode = body.get("mode", "edit").strip().lower()
 
     if not filename:
         raise HTTPException(status_code=400, detail="Thiếu 'filename'")
@@ -678,12 +679,32 @@ async def trigger_ai_edit(
             detail="Chưa cấu hình GEMINI_API_KEY / GOOGLE_API_KEY.",
         )
 
+    # Tạo prompt nâng cao nếu ở chế độ viết tiếp / viết lại theo mẫu
+    augmented_requirement = requirement
+    if mode == "extend":
+        augmented_requirement = (
+            "CHẾ ĐỘ: VIẾT TIẾP TÀI LIỆU THEO PHONG CÁCH MẪU.\n"
+            "Hãy phân tích kỹ văn phong, bố cục và cách định dạng (in đậm, cách dùng danh sách liệt kê, v.v.) của các đoạn cuối cùng trong TÀI LIỆU GỐC.\n"
+            "Sau đó, sử dụng các số liệu và thông tin từ TÀI LIỆU THAM KHẢO để viết tiếp các nội dung mới tiếp theo.\n"
+            "Bạn phải chèn chúng vào sau đoạn cuối cùng bằng cách dùng hành động 'insert_after'.\n"
+            f"Yêu cầu bổ sung của người dùng: {requirement}"
+        )
+    elif mode == "rewrite":
+        augmented_requirement = (
+            "CHẾ ĐỘ: VIẾT LẠI TOÀN BỘ THEO PHONG CÁCH MẪU.\n"
+            "Hãy phân tích kỹ văn phong, cách định dạng và từ vựng đặc trưng của TÀI LIỆU GỐC để lấy làm MẪU (Template).\n"
+            "Sau đó, sử dụng toàn bộ thông tin và số liệu từ TÀI LIỆU THAM KHẢO để viết lại toàn bộ nội dung của TÀI LIỆU GỐC theo phong cách mẫu đó.\n"
+            "Hãy trả về hành động 'modify' cho các đoạn văn gốc để cập nhật lại nội dung mới viết lại.\n"
+            f"Yêu cầu bổ sung của người dùng: {requirement}"
+        )
+
     # Tạo task
     task_id = uuid.uuid4().hex[:12]
     _ai_edit_tasks[task_id] = {
         "status": "queued",
         "filename": filename,
         "requirement": requirement,
+        "mode": mode,
         "reference_filename": reference_filename or None,
         "message": "Đang chờ xử lý...",
         "created_at": time.time(),
@@ -691,11 +712,11 @@ async def trigger_ai_edit(
 
     # Chạy AI processing trong background
     background_tasks.add_task(
-        _background_ai_process, file_path, task_id, requirement, reference_text
+        _background_ai_process, file_path, task_id, augmented_requirement, reference_text
     )
 
     logger.info(
-        "🚀 Đã đưa vào hàng đợi AI edit: %s (task=%s, ref=%s)", filename, task_id, reference_filename or "None"
+        "🚀 Đã đưa vào hàng đợi AI edit: %s (task=%s, mode=%s, ref=%s)", filename, task_id, mode, reference_filename or "None"
     )
 
     return {
@@ -714,6 +735,111 @@ async def get_ai_edit_status(task_id: str):
             status_code=404, detail=f"Task '{task_id}' không tồn tại"
         )
     return {"task_id": task_id, **task}
+
+
+# ── AI Edit Blocks Endpoint (Synchronous) ──────────────────────────
+
+
+@app.post("/api/ai-edit-block")
+async def ai_edit_block(request: Request):
+    """
+    Chỉnh sửa AI cho một hoặc nhiều block (synchronous).
+
+    Request body:
+    {
+        "filename": "bao_cao.docx",
+        "blocks": {
+            "p_5": "Nội dung block 5...",
+            "p_8": "Nội dung block 8..."
+        },
+        "requirement": "Viết trang trọng hơn",
+        "reference_filename": "ref.docx" (tùy chọn)
+    }
+
+    Response:
+    {
+        "suggestions": {
+            "p_5": "...",
+            "p_8": "..."
+        },
+        "status": "completed"
+    }
+    """
+    try:
+        body = await request.json()
+    except Exception:
+        raise HTTPException(status_code=400, detail="Request body không hợp lệ")
+
+    filename = body.get("filename", "").strip()
+    blocks = body.get("blocks", {})
+    requirement = body.get("requirement", "").strip()
+    reference_filename = body.get("reference_filename", "").strip()
+
+    if not filename:
+        raise HTTPException(status_code=400, detail="Thiếu 'filename'")
+    if not blocks or not isinstance(blocks, dict):
+        raise HTTPException(status_code=400, detail="Thiếu hoặc sai định dạng 'blocks' (yêu cầu JSON object mapping p_id -> text)")
+    if not requirement:
+        raise HTTPException(
+            status_code=400,
+            detail="Thiếu 'requirement' (yêu cầu chỉnh sửa)",
+        )
+
+    # Kiểm tra API key
+    if not config.GEMINI_API_KEY:
+        raise HTTPException(
+            status_code=500,
+            detail="Chưa cấu hình GEMINI_API_KEY / GOOGLE_API_KEY.",
+        )
+
+    # Trích xuất tài liệu tham khảo nếu có
+    reference_text = None
+    if reference_filename:
+        reference_text_list = []
+        ref_names = [r.strip() for r in reference_filename.split(",") if r.strip()]
+        for ref_name in ref_names:
+            ref_path = config.EDITED_DIR / ref_name
+            if not ref_path.exists():
+                ref_path = config.UPLOADS_DIR / ref_name
+            if not ref_path.exists():
+                ref_path = REFERENCE_DIR / ref_name
+            if not ref_path.exists():
+                continue  # Bỏ qua file tham khảo không tìm thấy
+            try:
+                txt = _extract_reference_text(ref_path)
+                reference_text_list.append(f"=== NỘI DUNG TÀI LIỆU THAM KHẢO: {ref_name} ===\n{txt}")
+            except Exception as e:
+                logger.warning("Không thể trích xuất tài liệu tham khảo '%s': %s", ref_name, e)
+        if reference_text_list:
+            reference_text = "\n\n".join(reference_text_list)
+
+    # Gọi AI chỉnh sửa với các blocks được truyền lên
+    try:
+        edited = generate_ai_edit(
+            blocks,
+            requirement,
+            reference_text=reference_text,
+            model=config.GEMINI_MODEL,
+            api_key=config.GEMINI_API_KEY or None,
+        )
+
+        logger.info(
+            "✨ AI blocks edit hoàn tất cho %s (%d blocks) — %d đề xuất",
+            filename, len(blocks), len(edited),
+        )
+
+        return {
+            "suggestions": edited,
+            "status": "completed",
+            "message": f"AI đã hoàn thành đề xuất chỉnh sửa cho {len(blocks)} blocks.",
+        }
+
+    except Exception as e:
+        logger.error("❌ AI blocks edit thất bại cho %s: %s", filename, e)
+        raise HTTPException(
+            status_code=500,
+            detail=f"Lỗi khi gọi AI: {e}",
+        )
 
 
 # ── Extract Paragraphs Endpoint ────────────────────────────────────

@@ -457,16 +457,15 @@
 
         /* Track Changes Markups */
         .paper ins {
-            background-color: rgba(52, 211, 153, 0.25);
-            color: #065f46;
-            text-decoration: none;
-            border-bottom: 2px solid var(--success);
+            background-color: rgba(46, 204, 113, 0.15);
+            color: #27ae60;
+            text-decoration: underline;
             padding: 1px 2px;
         }
 
         .paper del {
-            background-color: rgba(239, 68, 68, 0.15);
-            color: #991b1b;
+            background-color: rgba(231, 76, 60, 0.1);
+            color: #c0392b;
             text-decoration: line-through;
             padding: 1px 2px;
         }
@@ -474,25 +473,51 @@
         /* Highlight classes for track changes state */
         .para-block {
             position: relative;
-            padding: 4px 8px;
-            margin: -4px -8px;
+            padding: 4px 12px;
+            margin: 2px 0;
             border-radius: var(--radius-sm);
+            border-left: 3px solid transparent;
             transition: all var(--transition);
         }
 
+        /* ONLYOFFICE Left margin indicator */
+        .para-block.pending::before {
+            content: "";
+            position: absolute;
+            left: -30px; /* Nằm ngay sát lề trái trang giấy A4 */
+            top: 2px;
+            bottom: 2px;
+            width: 3px;
+            background: #3498db;
+            opacity: 0.6;
+            transition: all var(--transition);
+            border-radius: 2px;
+        }
+
+        .para-block.pending:hover::before {
+            width: 5px;
+            opacity: 1;
+        }
+
         .para-block.pending {
-            background: rgba(59, 130, 246, 0.04);
-            border-left: 3px solid var(--info);
+            background: rgba(59, 130, 246, 0.02);
+            border-left-color: #3498db;
+        }
+
+        .para-block.hover-highlight {
+            background: rgba(59, 130, 246, 0.08) !important;
+            border-left-color: var(--word-blue) !important;
+            box-shadow: 0 0 8px rgba(24, 90, 189, 0.1) !important;
         }
 
         .para-block.accepted {
-            background: rgba(16, 185, 129, 0.03);
-            border-left: 3px solid var(--success);
+            background: rgba(46, 204, 113, 0.02);
+            border-left-color: var(--success);
         }
 
         .para-block.rejected {
-            background: rgba(239, 68, 68, 0.02);
-            border-left: 3px solid var(--danger);
+            background: rgba(231, 76, 60, 0.02);
+            border-left-color: var(--danger);
         }
 
         /* ── Track Changes Review Card Gutter (Right) ────────────── */
@@ -533,123 +558,213 @@
             gap: 12px;
         }
 
+        /* ONLYOFFICE Docs Balloon Style */
         .change-card {
             background: #ffffff;
             border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            padding: 14px;
+            border-left: 4px solid #95a5a6; /* Mép màu trái */
+            border-radius: 6px;
+            padding: 12px 14px;
             display: flex;
             flex-direction: column;
             gap: 10px;
             transition: all var(--transition);
             box-shadow: var(--shadow-card);
+            position: relative;
+        }
+
+        .change-card.insert-type {
+            border-left-color: #2ecc71;
+        }
+
+        .change-card.delete-type {
+            border-left-color: #e74c3c;
+        }
+
+        .change-card.modify-type {
+            border-left-color: #3498db;
         }
 
         .change-card:hover {
             border-color: var(--text-secondary);
-            background: #fcfcfc;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
         }
 
-        .change-card.active {
-            border-color: var(--info);
-            background: #f3f9ff;
-            box-shadow: 0 0 10px rgba(59, 130, 246, 0.1);
+        .change-card.active,
+        .change-card.hover-highlight {
+            border-color: var(--word-blue);
+            background: #f8fbff;
+            box-shadow: 0 4px 16px rgba(24, 90, 189, 0.12);
         }
 
         .change-card.accepted {
-            border-color: var(--success);
+            border-left-color: var(--success);
+            opacity: 0.85;
             background: #f4fdf9;
         }
 
         .change-card.rejected {
-            border-color: var(--danger);
+            border-left-color: var(--danger);
+            opacity: 0.85;
             background: #fdf5f5;
         }
 
-        .card-meta {
+        /* Card Header / Meta */
+        .card-header-oo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: #ffffff;
+            user-select: none;
+            flex-shrink: 0;
+        }
+
+        .card-avatar.ai {
+            background: linear-gradient(135deg, #7b61ff, #6347d9);
+            box-shadow: 0 2px 6px rgba(123, 97, 255, 0.3);
+        }
+
+        .card-avatar.user {
+            background: linear-gradient(135deg, #00a896, #028090);
+            box-shadow: 0 2px 6px rgba(0, 168, 150, 0.3);
+        }
+
+        .card-meta-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .card-author-oo {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-main);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--text-secondary);
         }
 
-        .card-status {
-            text-transform: uppercase;
+        .card-time-oo {
+            font-size: 10px;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .card-action-badge {
             font-size: 9px;
-            letter-spacing: 0.05em;
+            font-weight: 600;
+            padding: 1px 6px;
+            border-radius: 10px;
+            background: #f1f2f6;
+            color: var(--text-secondary);
+            display: inline-block;
+            align-self: flex-start;
+            text-transform: uppercase;
         }
 
-        .card-status.pending {
-            color: var(--info);
+        .card-action-badge.insert {
+            background: rgba(46, 204, 113, 0.12);
+            color: #27ae60;
         }
 
-        .card-status.accepted {
-            color: var(--success);
+        .card-action-badge.delete {
+            background: rgba(231, 76, 60, 0.12);
+            color: #c0392b;
         }
 
-        .card-status.rejected {
-            color: var(--danger);
+        .card-action-badge.modify {
+            background: rgba(52, 152, 219, 0.12);
+            color: #2980b9;
         }
 
         .card-body {
             font-size: 12px;
             line-height: 1.5;
             color: var(--text-main);
-            max-height: 100px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 4;
-            -webkit-box-orient: vertical;
+            background: #fafafa;
+            border: 1px solid #f1f2f6;
+            border-radius: 4px;
+            padding: 8px 10px;
+            word-break: break-word;
+            max-height: 150px;
+            overflow-y: auto;
         }
 
-        .card-actions {
+        .card-actions-oo {
             display: flex;
-            gap: 6px;
+            justify-content: flex-end;
+            gap: 8px;
             margin-top: 4px;
         }
 
-        .card-btn {
-            flex: 1;
-            padding: 5px;
-            font-size: 11px;
-            font-weight: 600;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border-color);
-            cursor: pointer;
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-main);
-            transition: all var(--transition);
+        /* Circle Buttons like OnlyOffice */
+        .btn-round-oo {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 4px;
+            border: 1px solid var(--border-color);
+            background: #ffffff;
+            cursor: pointer;
+            transition: all var(--transition);
+            color: var(--text-secondary);
+            font-size: 12px;
         }
 
-        .card-btn-accept {
-            border-color: rgba(16, 185, 129, 0.4);
-            color: var(--success);
-            background: rgba(16, 185, 129, 0.08);
+        .btn-round-oo:hover {
+            transform: scale(1.08);
         }
 
-        .card-btn-accept:hover {
-            background: var(--success);
-            color: #fff;
-            border-color: var(--success);
+        .btn-round-oo.btn-accept-oo {
+            border-color: rgba(46, 204, 113, 0.5);
+            color: #2ecc71;
         }
 
-        .card-btn-reject {
-            border-color: rgba(239, 68, 68, 0.4);
-            color: var(--danger);
-            background: rgba(239, 68, 68, 0.08);
+        .btn-round-oo.btn-accept-oo:hover {
+            background: #2ecc71;
+            color: #ffffff;
+            border-color: #2ecc71;
+            box-shadow: 0 2px 8px rgba(46, 204, 113, 0.4);
         }
 
-        .card-btn-reject:hover {
-            background: var(--danger);
-            color: #fff;
-            border-color: var(--danger);
+        .btn-round-oo.btn-reject-oo {
+            border-color: rgba(231, 76, 60, 0.5);
+            color: #e74c3c;
+        }
+
+        .btn-round-oo.btn-reject-oo:hover {
+            background: #e74c3c;
+            color: #ffffff;
+            border-color: #e74c3c;
+            box-shadow: 0 2px 8px rgba(231, 76, 60, 0.4);
+        }
+
+        .btn-round-oo.btn-undo-oo {
+            border-color: rgba(52, 152, 219, 0.5);
+            color: #3498db;
+        }
+
+        .btn-round-oo.btn-undo-oo:hover {
+            background: #3498db;
+            color: #ffffff;
+            border-color: #3498db;
+            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.4);
         }
 
         /* ── Empty & Welcome Views ──────────────────────────────── */
@@ -894,6 +1009,173 @@
         ::-webkit-scrollbar-thumb:hover {
             background: rgba(255, 255, 255, 0.2);
         }
+
+        /* ── AI Chat Sidebar ── */
+        .chat-panel {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background: #ffffff;
+        }
+
+        .chat-header {
+            padding: 16px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            background: #ffffff;
+            flex-shrink: 0;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: #fdfdfd;
+        }
+
+        .chat-msg {
+            max-width: 85%;
+            padding: 10px 14px;
+            border-radius: var(--radius-md);
+            font-size: 13px;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+
+        .chat-msg p {
+            margin-bottom: 8px;
+        }
+        .chat-msg p:last-child {
+            margin-bottom: 0;
+        }
+
+        .chat-msg.ai-msg {
+            background: #f1f2f6;
+            color: var(--text-main);
+            align-self: flex-start;
+            border-bottom-left-radius: var(--radius-sm);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .chat-msg.user-msg {
+            background: var(--word-blue);
+            color: #ffffff;
+            align-self: flex-end;
+            border-bottom-right-radius: var(--radius-sm);
+            box-shadow: 0 2px 6px var(--word-blue-glow);
+        }
+
+        .chat-context-section {
+            padding: 12px 16px;
+            border-top: 1px solid var(--border-color);
+            background: #fdfdfd;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .chat-input-area {
+            padding: 12px 16px;
+            border-top: 1px solid var(--border-color);
+            background: #ffffff;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .drag-context-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--word-blue-glow);
+            border: 1px dashed rgba(24, 90, 189, 0.3);
+            border-radius: var(--radius-sm);
+            padding: 6px 10px;
+            font-size: 11px;
+        }
+
+        .chat-textarea {
+            flex: 1;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 8px 12px;
+            font-size: 13px;
+            font-family: var(--font);
+            color: var(--text-main);
+            resize: none;
+            height: 52px;
+            transition: all var(--transition);
+        }
+
+        .chat-textarea:focus {
+            outline: none;
+            border-color: var(--word-blue);
+            box-shadow: 0 0 0 2px var(--word-blue-glow);
+        }
+
+        /* ── Suggestion Tooltip ── */
+        .suggestion-tooltip {
+            position: absolute;
+            z-index: 10000;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+            border-radius: 20px;
+            padding: 4px 8px;
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            pointer-events: auto;
+            transform: translateY(-8px);
+            opacity: 0;
+            transition: opacity 150ms ease-out, transform 150ms ease-out;
+        }
+
+        .suggestion-tooltip.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .tooltip-btn {
+            padding: 5px 12px;
+            font-size: 11px;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .tooltip-btn-accept {
+            background: var(--success);
+            color: #ffffff;
+        }
+
+        .tooltip-btn-accept:hover {
+            background: #0d9488;
+            box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
+        }
+
+        .tooltip-btn-reject {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            color: var(--danger);
+        }
+
+        .tooltip-btn-reject:hover {
+            background: var(--danger-glow);
+            border-color: var(--danger);
+        }
     </style>
 </head>
 
@@ -923,50 +1205,20 @@
                 <button class="btn btn-ghost" id="btn-new-file">📁 Đổi File</button>
                 <button class="btn btn-ghost" id="btn-refresh-files">🔄 Làm mới danh sách</button>
                 <div class="vertical-divider"></div>
-                <button class="btn btn-primary" id="btn-ai-menu" disabled>✨ AI Edit (Gemini)</button>
+                <button class="btn btn-primary" id="btn-ai-menu" disabled>✨ Trợ lý AI (Chat)</button>
                 <button class="btn btn-success" id="btn-save-changes" disabled style="display:none">💾 Lưu thay đổi</button>
                 <button class="btn btn-primary" id="btn-download-file" style="display:none">📥 Tải về máy</button>
+                <div class="vertical-divider" id="review-divider" style="display:none"></div>
+                <button class="btn btn-success" id="btn-accept-all" style="display:none">✔️ Đồng ý tất cả</button>
+                <button class="btn btn-ghost" id="btn-reject-all" style="display:none; color:var(--danger); border-color:rgba(239, 68, 68, 0.2);"
+                        onmouseover="this.style.background='var(--danger-glow)'"
+                        onmouseout="this.style.background='none'">❌ Từ chối tất cả</button>
             </div>
         </header>
 
         <!-- Progress bar -->
         <div class="progress-line" id="progress-bar">
             <div class="fill"></div>
-        </div>
-
-        <!-- ── AI Input Prompt Bar ── -->
-        <div class="ai-prompt-bar" id="ai-prompt-bar">
-            <span style="font-size:12px; font-weight:700; color:var(--word-blue);">✧ GEMINI</span>
-            <input type="text" class="ai-prompt-input" id="ai-prompt-input"
-                placeholder="Nhập yêu cầu viết lại văn bản, VD: Viết trang trọng hơn, sửa các phần chưa thực hiện thành bỏ đi..." />
-
-            <div style="display: flex; align-items: center; gap: 6px; flex-shrink: 0; position: relative;">
-                <span style="font-size:12px; color:var(--text-secondary); white-space: nowrap;">Tài liệu tham
-                    khảo:</span>
-
-                <div style="position: relative; display: inline-block;">
-                    <button class="btn btn-ghost" id="btn-ref-dropdown-toggle"
-                        style="background: #ffffff; border: 1px solid var(--border-color); color: var(--text-main); font-size:12px; padding: 6px 12px; border-radius: var(--radius-sm); min-width: 180px; text-align: left; display: flex; justify-content: space-between; align-items: center; gap: 8px;">
-                        <span id="ref-selected-count">Đang chọn (0)</span>
-                        <span style="font-size: 8px; color: var(--text-muted);">▼</span>
-                    </button>
-
-                    <div id="ref-dropdown-menu"
-                        style="display: none; position: absolute; top: 100%; left: 0; background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius-md); box-shadow: var(--shadow-card); z-index: 1000; max-height: 250px; overflow-y: auto; padding: 8px; width: 280px; margin-top: 6px; flex-direction: column; gap: 4px;">
-                        <!-- Checkboxes and delete buttons injected here -->
-                    </div>
-                </div>
-
-                <div style="position: relative; overflow: hidden;">
-                    <button class="btn" style="padding: 5px 10px; font-size: 12px;">📎 Upload tài liệu</button>
-                    <input type="file" id="ref-file-upload" accept=".md,.pdf,.txt,.docx"
-                        style="position:absolute;inset:0;opacity:0;cursor:pointer;" />
-                </div>
-            </div>
-
-            <button class="btn btn-primary" id="btn-ai-run">🚀 Chạy AI</button>
-            <button class="btn btn-ghost" id="btn-ai-cancel" style="padding:6px 10px;">✕</button>
-            <span id="ai-status-text" style="font-size:12px; color:var(--text-secondary);"></span>
         </div>
 
         <!-- ── Main Workspace ── -->
@@ -1002,28 +1254,83 @@
                 </article>
             </main>
 
-            <!-- Right Sidebar (Track Changes Pane) -->
-            <aside class="review-panel" id="review-panel" style="display: none;">
-                <div class="review-header">
-                    <span>Duyệt Gợi ý AI</span>
-                    <span class="changes-counter" id="changes-counter">0 Thay đổi</span>
-                </div>
-                <!-- Nút Đồng ý / Từ chối tất cả -->
-                <div class="review-actions-all" id="review-actions-all"
-                    style="display: flex; gap: 8px; padding: 10px 16px; border-bottom: 1px solid var(--border-color); background: #fdfdfd; flex-shrink: 0;">
-                    <button class="btn btn-success" id="btn-accept-all"
-                        style="flex: 1; padding: 6px 10px; font-size: 11px; display: inline-flex; align-items: center; justify-content: center; gap: 4px;">✔️
-                        Đồng ý tất cả</button>
-                    <button class="btn btn-ghost" id="btn-reject-all"
-                        style="flex: 1; padding: 6px 10px; font-size: 11px; display: inline-flex; align-items: center; justify-content: center; gap: 4px; color: var(--danger); border-color: rgba(239, 68, 68, 0.2);"
-                        onmouseover="this.style.background='var(--danger-glow)'"
-                        onmouseout="this.style.background='none'">❌ Từ chối tất cả</button>
-                </div>
-                <div class="review-cards" id="review-cards">
-                    <!-- Change Cards injected here -->
+            <!-- Right Sidebar (AI Chat Assistant & Revisions) -->
+            <aside class="review-panel" id="review-panel" style="display: none; width: 360px;">
+                <div class="chat-panel" id="chat-panel">
+                    <div class="chat-header">
+                        <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <span style="font-size:16px;">✦</span>
+                                <span style="font-weight:600; font-size:14px;">Trợ lý AI Gemini</span>
+                            </div>
+                            <span class="changes-counter" id="changes-counter" style="display:none;">0 Thay đổi</span>
+                        </div>
+                        <span id="ai-status-text" style="font-size:11px; color:var(--text-secondary); margin-top: 4px;">Sẵn sàng trợ giúp</span>
+                    </div>
+
+                    <!-- Chat Messages list -->
+                    <div class="chat-messages" id="chat-messages">
+                        <div class="chat-msg ai-msg">
+                            Chào bạn! Tôi là Trợ lý AI. Bạn có thể trò chuyện với tôi hoặc gửi yêu cầu để tôi viết tiếp/viết lại tài liệu theo mẫu.<br><br>
+                            💡 **Gợi ý:** Bạn có thể kéo thả bất kỳ đoạn văn nào từ tài liệu gốc vào ô chat dưới đây để đưa vào bối cảnh làm việc.
+                        </div>
+                    </div>
+
+                    <!-- Context and references selector -->
+                    <div class="chat-context-section">
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                            <span style="font-size: 11px; font-weight: 600; color: var(--text-secondary);">TÀI LIỆU THAM KHẢO</span>
+                            <div style="position: relative; overflow: hidden; display:inline-block;">
+                                <button class="btn" style="padding: 2px 8px; font-size: 11px;">📎 Upload</button>
+                                <input type="file" id="ref-file-upload" accept=".md,.pdf,.txt,.docx"
+                                    style="position:absolute;inset:0;opacity:0;cursor:pointer;" />
+                            </div>
+                        </div>
+
+                        <!-- Dropdown to select uploaded reference files -->
+                        <div style="position: relative; display: block;">
+                            <button class="btn" id="btn-ref-dropdown-toggle"
+                                style="width: 100%; background: #ffffff; border: 1px solid var(--border-color); color: var(--text-main); font-size:12px; padding: 6px 12px; border-radius: var(--radius-sm); display: flex; justify-content: space-between; align-items: center;">
+                                <span id="ref-selected-count">Đang chọn (0)</span>
+                                <span style="font-size: 8px; color: var(--text-muted);">▼</span>
+                            </button>
+                            <div id="ref-dropdown-menu"
+                                style="display: none; position: absolute; bottom: 100%; left: 0; right: 0; background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius-md); box-shadow: var(--shadow-card); z-index: 1000; max-height: 180px; overflow-y: auto; padding: 8px; margin-bottom: 6px; flex-direction: column; gap: 4px;">
+                                <!-- Checkboxes injected here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chat Input and Drop Zone -->
+                    <div class="chat-input-area">
+                        <!-- Draggable Context Container -->
+                        <div class="drag-context-container" id="drag-context-container" style="display: none;">
+                            <span style="font-size:11px; color:var(--text-secondary); text-overflow:ellipsis; overflow:hidden; white-space:nowrap; max-width: 250px;" id="drag-context-text"></span>
+                            <button id="btn-clear-drag-context" style="background:none; border:none; color:var(--danger); cursor:pointer; font-weight:bold; font-size:12px;">✕</button>
+                        </div>
+
+                        <!-- Mode selector -->
+                        <div class="chat-mode-selector" style="display:flex; gap:8px; padding: 4px 0; border-top:1px solid var(--border-color); font-size:11px; color: var(--text-secondary);">
+                            <label style="display:flex; align-items:center; gap:4px; cursor:pointer;"><input type="radio" name="write-mode" value="edit" checked /> Chỉnh sửa</label>
+                            <label style="display:flex; align-items:center; gap:4px; cursor:pointer;"><input type="radio" name="write-mode" value="extend" /> Viết tiếp</label>
+                            <label style="display:flex; align-items:center; gap:4px; cursor:pointer;"><input type="radio" name="write-mode" value="rewrite" /> Viết lại</label>
+                        </div>
+
+                        <!-- Textarea input -->
+                        <div style="display:flex; gap:8px; align-items:flex-end;">
+                            <textarea class="chat-textarea" id="chat-input" placeholder="Nhập yêu cầu chỉnh sửa, VD: Sửa văn phong trang trọng hơn..."></textarea>
+                            <button class="btn btn-primary" id="btn-ai-run" style="padding: 10px; border-radius: 50%; width: 36px; height: 36px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">🚀</button>
+                        </div>
+                    </div>
                 </div>
             </aside>
         </div>
+    </div>
+
+    <!-- Suggestion Tooltip -->
+    <div id="suggestion-tooltip" class="suggestion-tooltip" style="display: none;">
+        <button class="tooltip-btn tooltip-btn-accept" id="btn-tooltip-accept">✓ Đồng ý</button>
+        <button class="tooltip-btn tooltip-btn-reject" id="btn-tooltip-reject">✕ Từ chối</button>
     </div>
 
     <!-- Toast Notifications -->
@@ -1061,11 +1368,19 @@
             const btnAiMenu = $("btn-ai-menu");
             const btnSaveChanges = $("btn-save-changes");
             const btnDownloadFile = $("btn-download-file");
-            const aiPromptBar = $("ai-prompt-bar");
-            const aiPromptInput = $("ai-prompt-input");
             const btnAiRun = $("btn-ai-run");
             const aiStatusText = $("ai-status-text");
             const progressBar = $("progress-bar");
+
+            // Chat & Tooltip DOM references
+            const chatInput = $("chat-input");
+            const chatMessages = $("chat-messages");
+            const dragContextContainer = $("drag-context-container");
+            const dragContextText = $("drag-context-text");
+            const btnClearDragContext = $("btn-clear-drag-context");
+            const suggestionTooltip = $("suggestion-tooltip");
+            const btnTooltipAccept = $("btn-tooltip-accept");
+            const btnTooltipReject = $("btn-tooltip-reject");
 
             // ── Toast Notification Helper ──────────────────────────────
             function showToast(message, type = "info", duration = 4000) {
@@ -1429,7 +1744,8 @@
                                 docEdits[p_id] = {
                                     originalText: originalDoc[p_id].text,
                                     revisedText: newText,
-                                    status: "accepted" // Tự động đồng ý cho thay đổi thủ công
+                                    status: "accepted", // Tự động đồng ý cho thay đổi thủ công
+                                    author: "user"
                                 };
                                 saveStatus.textContent = "Có thay đổi thủ công";
                                 saveStatus.className = "status-badge saving";
@@ -1462,6 +1778,31 @@
                     p_block.addEventListener("click", () => {
                         if (docEdits[p_id]) {
                             focusChangeCard(p_id);
+                        }
+                    });
+
+                    // ── Hover Sync từ Văn bản sang Sidebar ──
+                    p_block.addEventListener("mouseenter", () => {
+                        if (docEdits[p_id]) {
+                            const card = document.getElementById(`card-${p_id}`);
+                            if (card) {
+                                card.classList.add("hover-highlight");
+                                const container = document.getElementById("review-cards");
+                                if (container) {
+                                    const cardRect = card.getBoundingClientRect();
+                                    const containerRect = container.getBoundingClientRect();
+                                    const relativeTop = cardRect.top - containerRect.top + container.scrollTop;
+                                    container.scrollTo({ top: relativeTop - container.clientHeight / 2 + cardRect.height / 2, behavior: "smooth" });
+                                }
+                            }
+                        }
+                    });
+                    p_block.addEventListener("mouseleave", () => {
+                        if (docEdits[p_id]) {
+                            const card = document.getElementById(`card-${p_id}`);
+                            if (card) {
+                                card.classList.remove("hover-highlight");
+                            }
                         }
                     });
                 });
@@ -1503,6 +1844,27 @@
 
                     ins_block.addEventListener("click", () => {
                         focusChangeCard(ins_id);
+                    });
+
+                    // ── Hover Sync từ Văn bản sang Sidebar ──
+                    ins_block.addEventListener("mouseenter", () => {
+                        const card = document.getElementById(`card-${ins_id}`);
+                        if (card) {
+                            card.classList.add("hover-highlight");
+                            const container = document.getElementById("review-cards");
+                            if (container) {
+                                const cardRect = card.getBoundingClientRect();
+                                const containerRect = container.getBoundingClientRect();
+                                const relativeTop = cardRect.top - containerRect.top + container.scrollTop;
+                                container.scrollTo({ top: relativeTop - container.clientHeight / 2 + cardRect.height / 2, behavior: "smooth" });
+                            }
+                        }
+                    });
+                    ins_block.addEventListener("mouseleave", () => {
+                        const card = document.getElementById(`card-${ins_id}`);
+                        if (card) {
+                            card.classList.remove("hover-highlight");
+                        }
                     });
 
                     // Tìm đoạn văn cuối cùng cùng cụm chèn để chèn tiếp sau nó (giữ đúng thứ tự)
@@ -1592,44 +1954,139 @@
                 });
             }
 
-            // ── AI Edit Execution & Polling ────────────────────────────
+            // ── Drag & Drop Context in Chat Panel ──
+            let draggedBlockContext = null;
+
+            const chatPanel = $("chat-panel");
+            chatPanel.addEventListener("dragover", (e) => {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = "copy";
+            });
+
+            chatPanel.addEventListener("drop", (e) => {
+                e.preventDefault();
+                const p_id = e.dataTransfer.getData("text/plain");
+                if (p_id && originalDoc[p_id]) {
+                    draggedBlockContext = {
+                        p_id: p_id,
+                        text: originalDoc[p_id].text
+                    };
+                    
+                    // Show context preview
+                    dragContextText.textContent = `Đoạn ${p_id.split("_")[1]}: "${draggedBlockContext.text.substring(0, 35)}..."`;
+                    dragContextContainer.style.display = "flex";
+                    showToast(`Đã nhận Đoạn ${p_id.split("_")[1]} làm bối cảnh!`, "info");
+                }
+            });
+
+            btnClearDragContext.addEventListener("click", () => {
+                draggedBlockContext = null;
+                dragContextContainer.style.display = "none";
+            });
+
+            function addChatMessage(sender, text, isMarkdown = false) {
+                const bubble = document.createElement("div");
+                bubble.className = `chat-msg ${sender === 'user' ? 'user-msg' : 'ai-msg'}`;
+                if (isMarkdown) {
+                    bubble.innerHTML = formatMarkdown(text);
+                } else {
+                    bubble.innerHTML = escapeHtml(text).replace(/\n/g, "<br>");
+                }
+                chatMessages.appendChild(bubble);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
             async function triggerAiEdit() {
-                const requirement = aiPromptInput.value.trim();
+                const requirement = chatInput.value.trim();
                 if (!requirement) {
-                    showToast("Vui lòng nhập yêu cầu chỉnh sửa văn bản!", "warning");
-                    aiPromptInput.focus();
+                    showToast("Vui lòng nhập câu hỏi hoặc yêu cầu chỉnh sửa!", "warning");
+                    chatInput.focus();
                     return;
                 }
 
                 const referenceFilename = selectedReferences.join(",");
+                const writeMode = document.querySelector('input[name="write-mode"]:checked').value;
+
+                // Add message to chat log
+                addChatMessage("user", requirement);
+                chatInput.value = ""; // Clear input
 
                 btnAiRun.disabled = true;
-                btnAiRun.innerHTML = '<span class="spinner"></span> Đang xử lý...';
-                aiStatusText.textContent = "Đang kết nối Gemini API...";
+                btnAiRun.innerHTML = '<span class="spinner"></span>';
+                aiStatusText.textContent = "Đang xử lý...";
                 progressBar.classList.add("active");
 
-                try {
-                    const res = await fetch(`${API}/api/ai-edit`, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            filename: activeFile,
-                            requirement: requirement,
-                            reference_filename: referenceFilename
-                        })
-                    });
+                // Case 1: Dragged specific block context -> Synchronous block edit
+                if (draggedBlockContext) {
+                    addChatMessage("ai", `⚙️ *Đang phân tích và xử lý Đoạn ${draggedBlockContext.p_id.split("_")[1]}...*`, true);
+                    
+                    try {
+                        const res = await fetch(`${API}/api/ai-edit-block`, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                filename: activeFile,
+                                blocks: {
+                                    [draggedBlockContext.p_id]: draggedBlockContext.text
+                                },
+                                requirement: requirement,
+                                reference_filename: referenceFilename
+                            })
+                        });
 
-                    if (!res.ok) {
-                        const err = await res.json();
-                        throw new Error(err.detail || "Không thể khởi chạy AI Edit");
+                        if (!res.ok) {
+                            const err = await res.json();
+                            throw new Error(err.detail || "Không thể xử lý block chỉnh sửa");
+                        }
+
+                        const data = await res.json();
+                        
+                        // Clear context
+                        draggedBlockContext = null;
+                        dragContextContainer.style.display = "none";
+
+                        applyAiSuggestions(data.suggestions);
+                        addChatMessage("ai", "✦ **Hoàn tất chỉnh sửa đoạn đã chọn!** Xem đề xuất trực tiếp trên văn bản.", true);
+
+                    } catch (err) {
+                        showToast(err.message, "error");
+                        addChatMessage("ai", `❌ Gặp lỗi khi xử lý đoạn văn: ${err.message}`);
+                        resetAiPromptBtn();
                     }
+                } 
+                // Case 2: Full document edit / extend / rewrite -> Background task
+                else {
+                    let modeText = "chỉnh sửa";
+                    if (writeMode === "extend") modeText = "viết tiếp theo mẫu";
+                    if (writeMode === "rewrite") modeText = "viết lại theo mẫu";
+                    
+                    addChatMessage("ai", `⚙️ *Đang tiến hành ${modeText} cho toàn bộ tài liệu (background task)...*`, true);
 
-                    const data = await res.json();
-                    activeTaskId = data.task_id;
-                    pollAiTaskStatus(data.task_id);
-                } catch (err) {
-                    showToast(err.message, "error");
-                    resetAiPromptBtn();
+                    try {
+                        const res = await fetch(`${API}/api/ai-edit`, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                filename: activeFile,
+                                requirement: requirement,
+                                reference_filename: referenceFilename,
+                                mode: writeMode
+                            })
+                        });
+
+                        if (!res.ok) {
+                            const err = await res.json();
+                            throw new Error(err.detail || "Không thể khởi chạy AI Edit");
+                        }
+
+                        const data = await res.json();
+                        activeTaskId = data.task_id;
+                        pollAiTaskStatus(data.task_id);
+                    } catch (err) {
+                        showToast(err.message, "error");
+                        addChatMessage("ai", `❌ Gặp lỗi khi khởi chạy AI: ${err.message}`);
+                        resetAiPromptBtn();
+                    }
                 }
             }
 
@@ -1639,6 +2096,7 @@
                     try {
                         const res = await fetch(`${API}/api/ai-edit/status/${taskId}`);
                         const data = await res.json();
+
                         aiStatusText.textContent = data.message || "Đang xử lý...";
 
                         if (data.status === "completed") {
@@ -1646,10 +2104,12 @@
                             pollingTimer = null;
                             showToast("Hoàn tất xử lý AI!", "success");
                             applyAiSuggestions(data.suggestions);
+                            addChatMessage("ai", "✦ **Hoàn tất xử lý AI toàn tài liệu!** Tôi đã đề xuất các thay đổi trực tiếp trên văn bản. Bạn hãy click vào từng đoạn bôi màu đỏ/xanh lá trên trang giấy để chấp nhận hoặc từ chối nhé.", true);
                         } else if (data.status === "failed") {
                             clearInterval(pollingTimer);
                             pollingTimer = null;
                             showToast(`Lỗi AI Edit: ${data.message}`, "error", 8000);
+                            addChatMessage("ai", `❌ Lỗi tiến trình AI: ${data.message}`);
                             resetAiPromptBtn();
                         }
                     } catch (err) {
@@ -1678,7 +2138,8 @@
                                 originalText: "",
                                 revisedText: revised_text,
                                 status: "pending",
-                                insertAfter: parentId
+                                insertAfter: parentId,
+                                author: "ai"
                             };
                             count++;
                         }
@@ -1688,7 +2149,8 @@
                             docEdits[p_id] = {
                                 originalText: originalText,
                                 revisedText: revised_text,
-                                status: "pending"
+                                status: "pending",
+                                author: "ai"
                             };
                             count++;
                         }
@@ -1696,7 +2158,6 @@
                 }
 
                 resetAiPromptBtn();
-                aiPromptBar.classList.remove("visible");
 
                 if (count > 0) {
                     showToast(`Phát hiện ${count} đoạn có đề xuất thay đổi.`, "info");
@@ -1715,62 +2176,31 @@
 
             // ── Render Review Cards on Right Panel ─────────────────────
             function renderReviewCards() {
-                reviewCards.innerHTML = "";
+                // reviewCards is no longer rendered as a sidebar list, 
+                // but we keep the changes counter and manage Accept/Reject All buttons in the ribbon.
                 let changesLeft = 0;
-
                 for (const [p_id, change] of Object.entries(docEdits)) {
                     if (change.status === "pending") changesLeft++;
-
-                    const card = document.createElement("div");
-                    card.className = `change-card ${change.status}`;
-                    card.id = `card-${p_id}`;
-
-                    let statusText = "Chờ duyệt";
-                    if (change.status === "accepted") statusText = "Đã Đồng Ý ✓";
-                    if (change.status === "rejected") statusText = "Đã Từ Chối ✕";
-
-                    let cardTitle = `Đoạn ${p_id.split("_")[1]}`;
-                    let diffHtml = "";
-                    if (p_id.includes("_ins_")) {
-                        cardTitle += " (Thêm mới)";
-                        diffHtml = `<ins>${escapeHtml(change.revisedText)}</ins>`;
-                    } else if (change.revisedText === "") {
-                        cardTitle += " (Xóa)";
-                        diffHtml = `<del>${escapeHtml(change.originalText)}</del>`;
-                    } else {
-                        diffHtml = diffTexts(change.originalText, change.revisedText);
-                    }
-
-                    card.innerHTML = `
-                    <div class="card-meta">
-                        <span>${cardTitle}</span>
-                        <span class="card-status ${change.status}">${statusText}</span>
-                    </div>
-                    <div class="card-body">
-                        ${diffHtml}
-                    </div>
-                    <div class="card-actions">
-                        ${change.status === 'pending' ? `
-                            <button class="card-btn card-btn-accept" data-action="accept" data-pid="${p_id}">✓ Đồng ý</button>
-                            <button class="card-btn card-btn-reject" data-action="reject" data-pid="${p_id}">✕ Từ chối</button>
-                        ` : `
-                            <button class="card-btn" data-action="undo" data-pid="${p_id}">↩ Hoàn tác</button>
-                        `}
-                    </div>
-                `;
-
-                    // Nhấp vào thẻ card sẽ scroll tới đoạn tương ứng trong giấy A4
-                    card.addEventListener("click", (e) => {
-                        if (e.target.tagName !== "BUTTON") {
-                            scrollToParagraph(p_id);
-                        }
-                    });
-
-                    reviewCards.appendChild(card);
                 }
 
                 changesCounter.textContent = `${changesLeft} Thay đổi`;
-                if (changesLeft === 0) {
+                
+                const reviewDivider = $("review-divider");
+                const btnAcceptAll = $("btn-accept-all");
+                const btnRejectAll = $("btn-reject-all");
+                
+                if (changesLeft > 0) {
+                    if (reviewDivider) reviewDivider.style.display = "inline-block";
+                    if (btnAcceptAll) btnAcceptAll.style.display = "inline-flex";
+                    if (btnRejectAll) btnRejectAll.style.display = "inline-flex";
+                    
+                    saveStatus.textContent = "Chờ duyệt";
+                    saveStatus.className = "status-badge saving";
+                } else {
+                    if (reviewDivider) reviewDivider.style.display = "none";
+                    if (btnAcceptAll) btnAcceptAll.style.display = "none";
+                    if (btnRejectAll) btnRejectAll.style.display = "none";
+                    
                     saveStatus.textContent = "Đã duyệt hết";
                     saveStatus.className = "status-badge saved";
                 }
@@ -1784,46 +2214,69 @@
                     // Thêm hiệu ứng highlight nháy nhẹ
                     block.style.boxShadow = "0 0 15px rgba(59, 130, 246, 0.4)";
                     setTimeout(() => { block.style.boxShadow = ""; }, 1500);
-
-                    focusChangeCard(p_id);
                 }
             }
 
-            function focusChangeCard(p_id) {
-                // Remove active style from all cards
-                document.querySelectorAll(".change-card").forEach(el => el.classList.remove("active"));
+            // ── Tooltip popup for Accept/Reject ──
+            let activeTooltipPid = null;
 
-                const card = document.getElementById(`card-${p_id}`);
-                if (card) {
-                    card.classList.add("active");
-                    card.scrollIntoView({ behavior: "smooth", block: "nearest" });
-                }
+            function showSuggestionTooltip(p_id, element) {
+                activeTooltipPid = p_id;
+                
+                // Show tooltip
+                suggestionTooltip.style.display = "flex";
+                // Trigger reflow to apply transition
+                suggestionTooltip.offsetHeight;
+                suggestionTooltip.classList.add("visible");
+
+                // Position tooltip above element
+                const rect = element.getBoundingClientRect();
+                const tooltipWidth = suggestionTooltip.offsetWidth || 140;
+                const top = rect.top + window.scrollY - 36;
+                const left = rect.left + window.scrollX + (rect.width / 2) - (tooltipWidth / 2);
+
+                suggestionTooltip.style.top = `${top}px`;
+                suggestionTooltip.style.left = `${left}px`;
             }
 
-            // ── Handle Action (Accept / Reject / Undo) ────────────────
-            reviewCards.addEventListener("click", (e) => {
-                const btn = e.target.closest("button");
-                if (!btn) return;
+            function hideSuggestionTooltip() {
+                suggestionTooltip.classList.remove("visible");
+                activeTooltipPid = null;
+                setTimeout(() => {
+                    if (!suggestionTooltip.classList.contains("visible")) {
+                        suggestionTooltip.style.display = "none";
+                    }
+                }, 150);
+            }
 
-                const pid = btn.dataset.pid;
-                const action = btn.dataset.action;
-
-                if (action === "accept") {
-                    docEdits[pid].status = "accepted";
-                    showToast(`Đã đồng ý thay đổi của Đoạn ${pid.split("_")[1]}`, "success");
-                } else if (action === "reject") {
-                    docEdits[pid].status = "rejected";
-                    showToast(`Đã khôi phục Đoạn ${pid.split("_")[1]}`, "info");
-                } else if (action === "undo") {
-                    docEdits[pid].status = "pending";
+            // Click outside to hide tooltip
+            document.addEventListener("click", (e) => {
+                if (!e.target.closest("#suggestion-tooltip") && !e.target.closest(".has-suggestion")) {
+                    hideSuggestionTooltip();
                 }
+            });
 
-                renderDocument();
-                renderReviewCards();
-                btnSaveChanges.disabled = false; // Bật nút lưu vì có thay đổi trạng thái duyệt
+            // Bind tooltip action buttons
+            btnTooltipAccept.addEventListener("click", () => {
+                if (activeTooltipPid && docEdits[activeTooltipPid]) {
+                    docEdits[activeTooltipPid].status = "accepted";
+                    showToast(`Đã đồng ý thay đổi`, "success");
+                    hideSuggestionTooltip();
+                    renderDocument();
+                    renderReviewCards();
+                    btnSaveChanges.disabled = false;
+                }
+            });
 
-                // Focus vào thẻ sau khi thay đổi để thao tác mượt mà
-                setTimeout(() => focusChangeCard(pid), 50);
+            btnTooltipReject.addEventListener("click", () => {
+                if (activeTooltipPid && docEdits[activeTooltipPid]) {
+                    docEdits[activeTooltipPid].status = "rejected";
+                    showToast(`Đã khôi phục văn bản gốc`, "info");
+                    hideSuggestionTooltip();
+                    renderDocument();
+                    renderReviewCards();
+                    btnSaveChanges.disabled = false;
+                }
             });
 
             // ── Save Document Changes to Server ────────────────────────
@@ -1936,7 +2389,7 @@
                 btnSaveChanges.style.display = "none";
                 btnDownloadFile.style.display = "none";
                 btnAiMenu.disabled = true;
-                aiPromptBar.classList.remove("visible");
+                reviewPanel.style.display = "none";
                 activeFile = null;
                 docNameDisplay.textContent = "Chưa chọn tài liệu";
                 saveStatus.textContent = "Đã lưu";
@@ -1947,21 +2400,20 @@
             }
 
             btnAiMenu.addEventListener("click", () => {
-                aiPromptBar.classList.toggle("visible");
-                if (aiPromptBar.classList.contains("visible")) {
+                const isVisible = reviewPanel.style.display === "flex";
+                if (isVisible) {
+                    reviewPanel.style.display = "none";
+                } else {
+                    reviewPanel.style.display = "flex";
                     populateReferenceDropdown();
-                    aiPromptInput.focus();
+                    chatInput.focus();
                 }
-            });
-
-            $("btn-ai-cancel").addEventListener("click", () => {
-                aiPromptBar.classList.remove("visible");
             });
 
             btnAiRun.addEventListener("click", triggerAiEdit);
 
-            aiPromptInput.addEventListener("keydown", (e) => {
-                if (e.key === "Enter") {
+            chatInput.addEventListener("keydown", (e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
                     e.preventDefault();
                     triggerAiEdit();
                 }

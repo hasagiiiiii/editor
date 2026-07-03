@@ -292,27 +292,21 @@ class DocxXmlProcessor:
             logger.warning("Không thể đọc quan hệ hình ảnh: %s", e)
         return rels
 
-    def _body_to_html_and_paragraphs(self, body_elem: etree._Element, image_rels: Dict[str, str], doc_filename: str) -> Tuple[str, Dict[str, Dict[str, str]]]:
+    def _body_to_html_and_paragraphs(self, body_elem: etree._Element, image_rels: Dict[str, str], doc_filename: str, p_element_to_id: Dict[etree._Element, str]) -> Tuple[str, Dict[str, Dict[str, str]]]:
         """
         Convert body XML to HTML and also return the dictionary of paragraph text and inner HTML.
         This ensures 100% alignment between layout HTML and the paragraph index.
         """
         W = self._W
         paragraphs_dict: Dict[str, Dict[str, str]] = {}
-        p_index_ref = [0]
         
         def walk(elem: etree._Element) -> str:
             if elem.tag == f"{W}p":
-                if self._is_toc_paragraph(elem):
-                    return ""
-                text = self._extract_paragraph_text(elem)
-                has_media = any("drawing" in sub.tag or "shape" in sub.tag or "imagedata" in sub.tag for sub in elem.iter())
-                if not text.strip() and not has_media:
+                if elem not in p_element_to_id:
                     return ""
                 
-                p_index_ref[0] += 1
-                p_idx = p_index_ref[0]
-                p_id = f"p_{p_idx}"
+                p_id = p_element_to_id[elem]
+                text = self._extract_paragraph_text(elem)
                 
                 # Styles and inner HTML
                 styles_dict = self._parse_p_pr(elem)
@@ -551,8 +545,12 @@ class DocxXmlProcessor:
             image_rels = self._load_image_relationships(file_path_str)
             doc_filename = path.name
 
+            # Lấy danh sách đoạn văn thực tế bằng _get_content_paragraphs
+            content_paragraphs = self._get_content_paragraphs(body)
+            p_element_to_id = {p_elem: f"p_{idx}" for idx, (p_elem, _) in enumerate(content_paragraphs, start=1)}
+
             # Thực hiện đệ quy toàn bộ body để sinh HTML bố cục chuẩn
-            html_out, paragraphs_dict = self._body_to_html_and_paragraphs(body, image_rels, doc_filename)
+            html_out, paragraphs_dict = self._body_to_html_and_paragraphs(body, image_rels, doc_filename, p_element_to_id)
 
             logger.info(
                 "Đã trích xuất %d đoạn văn từ '%s'", len(paragraphs_dict), file_path_str
@@ -712,9 +710,13 @@ class DocxXmlProcessor:
                     p_elem = p_index[key]
 
                     if new_text == "":
-                        # Thay vì xóa hoàn toàn w:p (gây lỗi cấu trúc XML nếu là đoạn cuối cùng của Table Cell hoặc Body), 
-                        # ta chỉ xóa nội dung để biến nó thành đoạn trống an toàn.
-                        self._replace_paragraph_text(p_elem, "", doc)
+                        # Xóa hoàn toàn đoạn văn khỏi cha nếu cha chứa nhiều hơn 1 đoạn w:p (để tránh để lại numbering trống hoặc empty heading)
+                        parent = p_elem.getparent()
+                        if parent is not None and len(parent.findall(f"{W}p")) > 1:
+                            parent.remove(p_elem)
+                        else:
+                            # Fallback an toàn: giữ lại w:p trống
+                            self._replace_paragraph_text(p_elem, "", doc)
                         
                         # Xóa khỏi danh sách neo để không thể chèn sau nó nữa
                         if key in anchors:
